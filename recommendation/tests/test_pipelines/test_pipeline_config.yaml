@@ -1,0 +1,11 @@
+run_name: test-pipeline
+enable_cache: False
+steps:
+  load_data:
+    enable_cache: False
+    parameters:
+      test_size: 0.25
+  train:
+    enable_cache: False
+  evaluate:
+    enable_cache: False
