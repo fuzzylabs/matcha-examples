@@ -1,3 +1,4 @@
+"""Run the recommendation example pipeline."""
 from steps import (
     load_data,
     train,
@@ -10,6 +11,7 @@ from materializer import SurpriseMaterializer
 
 
 def run_recommendation_pipeline():
+    """Run all steps in the example pipeline."""
     pipeline = recommendation_pipeline(
         load_data().configure(output_materializers=SurpriseMaterializer),
         train().configure(output_materializers=SurpriseMaterializer),
@@ -19,6 +21,7 @@ def run_recommendation_pipeline():
 
 
 def main():
+    """Run all pipeline."""
     print("Running recommendation pipeline")
     run_recommendation_pipeline()
 

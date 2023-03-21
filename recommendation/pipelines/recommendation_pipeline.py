@@ -1,3 +1,4 @@
+"""A pipeline to load, train and evaluate a simple recommendation model."""
 from zenml.pipelines import pipeline
 
 
