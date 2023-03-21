@@ -1,5 +1,7 @@
 # A basic recommendation example
 
+This is a simple recommendation example that can be run on the infrastructure provisioned by matcha 🍵.
+
 ## Getting Started
 
 1. Clone this repo:
@@ -16,20 +18,24 @@ cd recommendation
 ```bash
 python3 -m venv exampleenv
 source exampleenv/bin/activate
+```
+
+4. Install the required dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-Once that's complete, you need to setup ZenML:
+## Once that's complete, you need to setup ZenML:
 
 ```bash
 zenml init
 zenml up
 zenml stack register recommendation_example_stack -a default -o default --set
 ```
-
-From there, you can either run the pipeline itself:
+## Running the example
+From here, you can either run the recommendation example with matcha:
 ```bash
-python run.py
+match run
 ```
 
 Or the tests:

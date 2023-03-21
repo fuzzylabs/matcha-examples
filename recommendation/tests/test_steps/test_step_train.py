@@ -16,7 +16,7 @@ def data(data_parameters: dict) -> Trainset:
     """Data for training.
 
     Args:
-        data_parameters (dict): parameters for train test split.
+        data_parameters (dict): parameters for train test split
 
     Returns:
         Trainset: training data
