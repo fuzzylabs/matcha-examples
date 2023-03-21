@@ -19,7 +19,7 @@ pip install matcha
 cd recommendation
 ```
 
-4. Install the required dependencies:
+4. Install the required dependencies (Assuming you are already in a virtual environment):
 ```bash
 pip install -r requirements.txt
 ```
