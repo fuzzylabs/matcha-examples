@@ -14,13 +14,18 @@ git clone git@github.com:fuzzylabs/matcha-examples.git
 pip install matcha
 ```
 
-2. Go to the recommendation example directory:
+3. Go to the recommendation example directory:
 ```bash
 cd recommendation
 ```
 
-4. Install the required dependencies (Assuming you are already in a virtual environment):
+4. Install the required dependencies:
 ```bash
+# If you don't have a virtual environment set up yet.
+python3 -m venv venv
+source venv/bin/activate
+
+# If you already have a active virtual environment.
 pip install -r requirements.txt
 ```
 
