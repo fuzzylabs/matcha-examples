@@ -35,7 +35,7 @@ zenml stack register recommendation_example_stack -a default -o default --set
 ## Running the example
 From here, you can either run the recommendation example with matcha:
 ```bash
-match run
+matcha run
 ```
 
 Or the tests:
