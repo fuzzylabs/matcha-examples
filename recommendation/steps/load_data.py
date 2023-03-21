@@ -7,6 +7,9 @@ from surprise.trainset import Trainset
 
 
 class DataParameters(BaseParameters):
+    """Load data parameters."""
+
+    # The size of test set
     test_size = 0.25
 
 

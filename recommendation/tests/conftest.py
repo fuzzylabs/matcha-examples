@@ -1,9 +1,10 @@
+"""Fixtures to be used and shared among tests."""
 import pytest 
 from types import SimpleNamespace
 
 @pytest.fixture
 def data_parameters() -> dict:
-    """Create a dictionary for parameters used in load_data step
+    """Create a dictionary for parameters used in load_data step.
 
     Returns:
         dict: dictionary containing parameters for the step

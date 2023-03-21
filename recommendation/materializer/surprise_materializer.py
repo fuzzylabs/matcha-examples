@@ -1,3 +1,4 @@
+"""Custom materializer for Surprise data and model."""
 import os
 import pickle
 
@@ -12,6 +13,7 @@ from surprise.trainset import Trainset
 DEFAULT_FILENAME = "surprise_output.pickle"
 
 class SurpriseMaterializer(BaseMaterializer):
+    """Custom materializer for handling object created using Surprise such as dataset and models."""
 
     ASSOCIATED_TYPES = (AlgoBase, Trainset, list)
 
@@ -20,13 +22,13 @@ class SurpriseMaterializer(BaseMaterializer):
         self.uri = uri
 
     def load(self, data_type: Type[Any]) -> Union[AlgoBase, Trainset]:
-        """Write logic here to load the data of an artifact.
+        """This function loads the input from the artifact store and returns it.
 
         Args:
-            data_type: What type the artifact data should be loaded as.
+            data_type (Type[Any]): The type of the artifact.
 
         Returns:
-            The data of the artifact.
+            Union[AlgoBase, Trainset]: the output of the artifact.
         """
         # read from self.uri
         super().load(data_type)
@@ -37,10 +39,10 @@ class SurpriseMaterializer(BaseMaterializer):
         return obj
 
     def save(self, obj: Any) -> None:
-        """Write logic here to save the data of an artifact.
+        """This function saves the artifact to the artifact store.
 
         Args:
-            data: The data of the artifact to save.
+            obj (any): The input artifact to be saved
         """
         # write `data` to self.uri
         super().save(obj)
