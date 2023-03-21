@@ -39,7 +39,7 @@ def pipeline_run():
 
 @pytest.fixture()
 def get_pipeline_run() -> PipelineRunView:
-    """Get the pipeline est run.
+    """Get the pipeline test run.
 
     Returns:
         PipelineRunView: the test run

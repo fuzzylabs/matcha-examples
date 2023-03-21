@@ -13,7 +13,7 @@ def train(trainset: Trainset) -> Output(model=SVD):
         trainset (Trainset): the data for model training.
 
     Returns:
-        SVD: the trained SVD
+        SVD: the trained SVD model
     """
     model = SVD()
 
