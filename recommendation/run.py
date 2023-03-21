@@ -4,10 +4,13 @@ from steps import (
     train,
     evaluate,
 )
-
 from pipelines import recommendation_pipeline
-
 from materializer import SurpriseMaterializer
+
+from zenml.logger import get_logger
+
+
+logger = get_logger(__name__)
 
 
 def run_recommendation_pipeline():
@@ -22,7 +25,7 @@ def run_recommendation_pipeline():
 
 def main():
     """Run all pipeline."""
-    print("Running recommendation pipeline")
+    logger.info("Running recommendation pipeline")
     run_recommendation_pipeline()
 
 

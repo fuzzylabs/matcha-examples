@@ -7,13 +7,12 @@ from steps import (
 )
 
 from surprise import SVD
-
 from surprise.trainset import Trainset
 
 
 @pytest.fixture
 def data(data_parameters: dict) -> Trainset:
-    """Data for training.
+    """A fixture to get the data used in training the model.
 
     Args:
         data_parameters (dict): parameters for train test split

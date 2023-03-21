@@ -9,13 +9,11 @@ from zenml.post_execution import get_run
 from zenml.post_execution.pipeline_run import PipelineRunView
 
 from pipelines import recommendation_pipeline
-
 from steps import (
     load_data,
     train,
     evaluate,
 )
-
 from materializer import SurpriseMaterializer
 
 from surprise import SVD

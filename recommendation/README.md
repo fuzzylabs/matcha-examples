@@ -9,15 +9,14 @@ This is a simple recommendation example that can be run on the infrastructure pr
 git clone git@github.com:fuzzylabs/matcha-examples.git
 ```
 
+2. Install matcha:
+```bash
+pip install matcha
+```
+
 2. Go to the recommendation example directory:
 ```bash
 cd recommendation
-```
-
-3. Create a new Python virtual environment and activate it. For Linux/MacOS users:
-```bash
-python3 -m venv exampleenv
-source exampleenv/bin/activate
 ```
 
 4. Install the required dependencies:
@@ -25,20 +24,19 @@ source exampleenv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Once that's complete, you need to setup ZenML:
+5. Once that's complete, you need to setup ZenML:
 
 ```bash
 zenml init
 zenml up
 zenml stack register recommendation_example_stack -a default -o default --set
 ```
-## Running the example
-From here, you can either run the recommendation example with matcha:
+6. Run the example:
 ```bash
 matcha run
 ```
 
-Or the tests:
+7. [Optional] run tests:
 ```bash
 python -m pytest tests
 ```

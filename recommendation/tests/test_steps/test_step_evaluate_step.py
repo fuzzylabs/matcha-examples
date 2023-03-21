@@ -13,7 +13,7 @@ from steps import (
 )
 
 
-BENCHMARK_SVD_SCORE = 0.934
+BENCHMARK_SVD_SCORE = 0.93
 
 @pytest.fixture
 def data(data_parameters: dict) -> Tuple[Trainset, list]:
@@ -56,6 +56,6 @@ def test_rmse_equals_benchmarks(model: SVD, data: Dataset):
     
     rmse = evaluate.entrypoint(model, testset)
 
-     # assert that the accuracy is 0.95 +/- 0.05
+     # assert that the accuracy is 0.93 +/- 0.1
     assert rmse == pytest.approx(BENCHMARK_SVD_SCORE, rel=0.1)
     
