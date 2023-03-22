@@ -47,7 +47,6 @@ def get_pipeline_run(pipeline_run) -> PipelineRunView:
     Returns:
         PipelineRunView: the test run
     """
-    print(type(pipeline_run))
     return get_unlisted_runs()[0]
 
 
