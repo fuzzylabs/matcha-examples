@@ -24,7 +24,7 @@ def load_data(params: DataParameters) -> Output(trainset=Trainset, testset=list)
         trainset: data for training
         testset: data for testing
     """
-    data = Dataset.load_builtin("ml-100k")
+    data = Dataset.load_builtin("ml-100k", prompt=False)
 
     trainset, testset = train_test_split(data, test_size=params.test_size)
 
