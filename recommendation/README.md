@@ -33,6 +33,8 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
+> There is a requirement for the Python version being used to be 3.8+. We recommend making use of [pyenv](https://github.com/pyenv/pyenv) to manage your versions.
+
 Set up the environment:
 
 This will install the requirements for the example (see [requirements.txt](requirements.txt)) and setup [ZenML](https://docs.zenml.io/getting-started/introduction):
