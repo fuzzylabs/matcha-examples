@@ -5,7 +5,7 @@ import os
 import logging
 
 from zenml.logger import disable_logging
-from zenml.post_execution import get_run, get_unlisted_runs
+from zenml.post_execution import get_unlisted_runs
 from zenml.post_execution.pipeline_run import PipelineRunView
 
 from pipelines import recommendation_pipeline
@@ -47,6 +47,7 @@ def get_pipeline_run(pipeline_run) -> PipelineRunView:
     Returns:
         PipelineRunView: the test run
     """
+    print(type(pipeline_run))
     return get_unlisted_runs()[0]
 
 

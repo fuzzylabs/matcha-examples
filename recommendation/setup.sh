@@ -6,6 +6,7 @@ echo "Installing example requirements (see requirements.txt)..."
 
 echo "Setting up ZenML (this will open a browser tab)..."
 {
+    export AUTO_OPEN_DASHBOARD=false
     zenml init 
     zenml up 
     zenml stack register recommendation_example_stack -a default -o default --set
