@@ -38,7 +38,7 @@ def pipeline_run():
 
 
 @pytest.fixture()
-def get_pipeline_run(pipeline_run) -> PipelineRunView:
+def get_pipeline_run() -> PipelineRunView:
     """Get the most recent pipeline run.
 
     Args:
