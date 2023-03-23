@@ -1,4 +1,3 @@
-run_name: test-pipeline
 enable_cache: False
 steps:
   load_data:
