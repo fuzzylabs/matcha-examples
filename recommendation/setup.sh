@@ -6,6 +6,13 @@ echo "Installing example requirements (see requirements.txt)..."
     zenml integration install mlflow -y
 } >> setup_out.log
 
+if [[ ! -f .matcha/infrastructure/matcha.state ]]
+then
+    echo "Error: The file .matcha/infrastructure/matcha.state does not exist!"
+    echo "Ensure that you have run 'matcha provision' in this directory and all cloud resources have been provisioned."
+    exit 1
+fi
+
 mlflow_tracking_url=$(sed -n 's/.*"mlflow-tracking-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 
 echo "Setting up ZenML (this will open a browser tab)..."
