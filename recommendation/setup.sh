@@ -6,9 +6,7 @@ echo "Installing example requirements (see requirements.txt)..."
     zenml integration install mlflow -y
 } >> setup_out.log
 
-# mlflow_tracking_url=`awk -F '["]' '/mlflow-tracking-url/ {print $4}' .matcha/infrastructure/matcha.state`
 mlflow_tracking_url=$(sed -n 's/.*"mlflow-tracking-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-
 
 echo "Setting up ZenML (this will open a browser tab)..."
 {
