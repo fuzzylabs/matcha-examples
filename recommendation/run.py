@@ -22,7 +22,7 @@ def run_recommendation_pipeline():
         evaluate(),
     )
     pipeline.run(config_path="pipeline_config.yaml")
-    print(
+    logger.info(
         f"Visit: {get_tracking_uri()}\n "
         "To inspect your experiment runs within the mlflow UI.\n"
     )
