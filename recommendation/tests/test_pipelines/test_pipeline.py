@@ -24,7 +24,7 @@ EXPECTED_DATA_LENGTH = 100000
 BENCHMARK_SVD_SCORE = 0.93
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="class", autouse=True)
 def pipeline_run():
     """Set up fixture for running the pipeline."""
     pipeline = recommendation_pipeline(
