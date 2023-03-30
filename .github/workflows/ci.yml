@@ -48,6 +48,8 @@ jobs:
 
           venv/bin/python3 -m pip install -r recommendation/requirements.txt
 
+          zenml integration install mlflow -y
+
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
