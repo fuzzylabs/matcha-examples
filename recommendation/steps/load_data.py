@@ -1,4 +1,5 @@
 """A step to load a movie ratings dataset."""
+import mlflow
 from zenml.steps import step, Output, BaseParameters
 
 from surprise import Dataset
@@ -13,7 +14,7 @@ class DataParameters(BaseParameters):
     test_size = 0.25
 
 
-@step
+@step(experiment_tracker="mlflow_experiment_tracker")
 def load_data(params: DataParameters) -> Output(trainset=Trainset, testset=list):
     """Load the movie len 100k dataset.
 
@@ -27,5 +28,6 @@ def load_data(params: DataParameters) -> Output(trainset=Trainset, testset=list)
     data = Dataset.load_builtin("ml-100k", prompt=False)
 
     trainset, testset = train_test_split(data, test_size=params.test_size)
-
+    
+    mlflow.log_param("test_size", params.test_size)
     return trainset, testset

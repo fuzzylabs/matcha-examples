@@ -8,6 +8,7 @@ from pipelines import recommendation_pipeline
 from materializer import SurpriseMaterializer
 
 from zenml.logger import get_logger
+from zenml.integrations.mlflow.mlflow_utils import get_tracking_uri
 
 
 logger = get_logger(__name__)
@@ -21,6 +22,10 @@ def run_recommendation_pipeline():
         evaluate(),
     )
     pipeline.run(config_path="pipeline_config.yaml")
+    logger.info(
+        f"Visit: {get_tracking_uri()}\n "
+        "To inspect your experiment runs within the mlflow UI.\n"
+    )
 
 
 def main():
