@@ -48,8 +48,18 @@ jobs:
 
           venv/bin/python3 -m pip install -r recommendation/requirements.txt
 
+      - name: Setup ZenML
+        run: |
+          source venv/bin/activate
+
+          zenml integration install mlflow -y
+
+          zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow
+
+          zenml stack register custom_stack -e mlflow_experiment_tracker -a default -o default --set
+
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
-          
+
           python -m pytest recommendation/tests/

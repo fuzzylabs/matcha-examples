@@ -20,6 +20,7 @@ def evaluate(model: SVD, testset: list) -> float:
     
     rmse = accuracy.rmse(predictions)
     
-    mlflow.log_metric("rmse", rmse)
+    if mlflow.active_run():
+        mlflow.log_metric("rmse", rmse)
 
     return rmse
