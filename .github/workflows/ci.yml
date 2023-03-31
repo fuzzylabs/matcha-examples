@@ -55,5 +55,7 @@ jobs:
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
+
+          zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow
           
           python -m pytest recommendation/tests/
