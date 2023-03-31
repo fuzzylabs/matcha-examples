@@ -29,5 +29,7 @@ def load_data(params: DataParameters) -> Output(trainset=Trainset, testset=list)
 
     trainset, testset = train_test_split(data, test_size=params.test_size)
     
-    mlflow.log_param("test_size", params.test_size)
+    if mlflow.active_run():
+        mlflow.log_param("test_size", params.test_size)
+        
     return trainset, testset
