@@ -57,5 +57,7 @@ jobs:
           source venv/bin/activate
 
           zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow
+
+          zenml stack register custom_stack -e mlflow_experiment_tracker -a default -o default --set
           
           python -m pytest recommendation/tests/
