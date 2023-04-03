@@ -1,0 +1,19 @@
+steps:
+  fetch_model:
+    enable_cache: False
+    parameters:
+      # Name of the pipeline to fetch from
+      pipeline_name: "recommendation_pipeline"
+      # Variables for step name.
+      step_name: "train"
+  deploy_model:
+    enable_cache: False
+    parameters:
+      model_name: "recommendation-model"
+      timeout: 120
+      engineResources:
+        requests:
+          cpu: 100m
+      containerResources:
+        requests:
+          cpu: 100m
