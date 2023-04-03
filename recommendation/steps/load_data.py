@@ -14,7 +14,7 @@ class DataParameters(BaseParameters):
     test_size = 0.25
 
 
-@step(experiment_tracker="mlflow_experiment_tracker")
+@step()
 def load_data(params: DataParameters) -> Output(trainset=Trainset, testset=list):
     """Load the movie len 100k dataset.
 
