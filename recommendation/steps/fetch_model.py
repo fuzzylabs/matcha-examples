@@ -42,10 +42,10 @@ def get_model_from_step(pipeline: PipelineView, fetch_model_step_name: str) -> S
     return model
 
 
-@step
+@step()
 def fetch_model(
     params: FetchModelParameters,
-) -> Output(decision=bool, model=SVD):
+) -> Output(model=SVD):
     """Step to fetch model artifacts from last run of the recommendation pipeline.
 
     Args:
