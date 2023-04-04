@@ -44,9 +44,7 @@ def custom_predict(
     """
     inputs = []
     for instance in request:
-        instance = np.array(instance)
-
-        pred = algo.predict(instance['uid'], instance['iid'])
+        pred = model.predict(instance['uid'], instance['iid'])
         
         inputs.append(pred)
         
