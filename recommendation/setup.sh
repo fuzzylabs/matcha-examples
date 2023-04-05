@@ -30,6 +30,6 @@ echo "Setting up ZenML (this will open a browser tab)..."
         --kubernetes_context=$kubernetes_context \
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
-    # Add Seldon to stack
+        
     zenml stack register recommendation_example_stack -e mlflow_experiment_tracker -a default -o default --model_deployer=seldon_deployer --set
 } >> setup_out.log
