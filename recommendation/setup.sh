@@ -13,7 +13,6 @@ then
     exit 1
 fi
 
-# Fetch k8s context, seldon workload, seldon namespace and seldon ingress host
 mlflow_tracking_url=$(sed -n 's/.*"mlflow-tracking-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 kubernetes_context=$(sed -n 's/.*"k8s-context": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 seldon_workload_namespace=$(sed -n 's/.*"seldon-workloads-namespace": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
@@ -25,6 +24,7 @@ echo "Setting up ZenML (this will open a browser tab)..."
     zenml init 
     zenml up 
     zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
+    
     # Register the Seldon Core Model Deployer
     zenml model-deployer register seldon_deployer --flavor=seldon \
         --kubernetes_context=$kubernetes_context \
