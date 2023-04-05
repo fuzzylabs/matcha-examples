@@ -1,9 +1,8 @@
 settings:
   docker:
-    build_context_root: ../
-    dockerignore: ../.dockerignore
+    dockerignore: .dockerignore
     requirements:
-      # - scikit-surprise
+      - scikit-surprise
 steps:
   load_data:
     enable_cache: False

@@ -32,9 +32,9 @@ echo "Setting up ZenML..."
 
     zenml init 
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
-    zenml container-registry register acr_registry --flavor=azure --uri="$acr_registry_uri"
-    zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
+    zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
+    zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path"
-    zenml orchestrator register k8s_orchestrator --flavor=kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
-    zenml stack register recommendation_example_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --set
+    zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
+    zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --set
 } >> setup_out.log
