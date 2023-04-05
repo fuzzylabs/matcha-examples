@@ -13,17 +13,28 @@ then
     exit 1
 fi
 
-mlflow_tracking_url=$(sed -n 's/.*"mlflow-tracking-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenml_storage_path=$(sed -n 's/.*"zenml-storage-path": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenml_connection_string=$(sed -n 's/.*"zenml-connection-string": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-k8s_context=$(sed -n 's/.*"k8s-context": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-acr_registry_uri=$(sed -n 's/.*"azure-container-registry": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-acr_registry_name=$(sed -n 's/.*"azure-registry-name": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenserver_url=$(sed -n 's/.*"zen-server-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenserver_username=$(sed -n 's/.*"zen-server-username": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenserver_password=$(sed -n 's/.*"zen-server-password": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-seldon_workload_namespace=$(sed -n 's/.*"seldon-workloads-namespace": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-seldon_ingress_host=$(sed -n 's/.*"seldon-base-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
+
+get_state_value() {
+    key=$1
+    value=$(sed -n 's/.*"'$key'": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
+    if [[ -z $value ]]; then
+        echo "Error: The value for '$key' is not found in .matcha/infrastructure/matcha.state!"
+        exit 1
+    fi
+    echo $value
+}
+
+mlflow_tracking_url=$(get_state_value mlflow-tracking-url)
+zenml_storage_path=$(get_state_value zenml-storage-path)
+zenml_connection_string=$(get_state_value zenml-connection-string)
+k8s_context=$(get_state_value k8s-context)
+acr_registry_uri=$(get_state_value azure-container-registry)
+acr_registry_name=$(get_state_value azure-registry-name)
+zenserver_url=$(get_state_value zen-server-url)
+zenserver_username=$(get_state_value zen-server-username)
+zenserver_password=$(get_state_value zen-server-password)
+seldon_workload_namespace=$(get_state_value seldon-workloads-namespace)
+seldon_ingress_host=$(get_state_value seldon-base-url)
 
 
 echo "Setting up ZenML..."
