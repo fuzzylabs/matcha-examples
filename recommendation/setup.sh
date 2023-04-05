@@ -3,7 +3,7 @@ echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
     
-    zenml integration install mlflow azure kubernetes -y
+    zenml integration install mlflow azure kubernetes seldon -y
 } >> setup_out.log
 
 if [[ ! -f .matcha/infrastructure/matcha.state ]]
@@ -21,7 +21,9 @@ acr_registry_uri=$(sed -n 's/.*"azure-container-registry": "\(.*\)".*/\1/p' .mat
 acr_registry_name=$(sed -n 's/.*"azure-registry-name": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 zenserver_url=$(sed -n 's/.*"zen-server-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 zenserver_username=$(sed -n 's/.*"zen-server-username": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-zenserver_password=$(sed -n 's/.*"zen-server-password": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state) 
+zenserver_password=$(sed -n 's/.*"zen-server-password": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
+seldon_workload_namespace=$(sed -n 's/.*"seldon-workloads-namespace": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
+seldon_ingress_host=$(sed -n 's/.*"seldon-base-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 
 
 echo "Setting up ZenML..."
@@ -30,11 +32,20 @@ echo "Setting up ZenML..."
     az acr login --name="$acr_registry_name"
 
     zenml init
+    zenml up
+    
     zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
-    zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --set
+
+    # Register the Seldon Core Model Deployer
+    zenml model-deployer register seldon_deployer --flavor=seldon \
+        --kubernetes_context=$k8s_context \
+        --kubernetes_namespace=$seldon_workload_namespace \
+        --base_url=http://$seldon_ingress_host \
+
+    zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
 } >> setup_out.log
