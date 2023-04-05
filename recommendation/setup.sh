@@ -19,11 +19,6 @@ kubernetes_context=$(sed -n 's/.*"k8s-context": "\(.*\)".*/\1/p' .matcha/infrast
 seldon_workload_namespace=$(sed -n 's/.*"seldon-workloads-namespace": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 seldon_ingress_host=$(sed -n 's/.*"seldon-base-url": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 
-echo $kubernetes_context
-echo $seldon_workload_namespace
-echo $seldon_ingress_host
-
-
 echo "Setting up ZenML (this will open a browser tab)..."
 {
     export AUTO_OPEN_DASHBOARD=false
