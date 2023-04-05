@@ -6,6 +6,8 @@ steps:
       pipeline_name: "recommendation_pipeline"
       # Variables for step name.
       step_name: "train"
+  deployment_trigger:
+    enable_cache: False
   deploy_model:
     enable_cache: False
     parameters:

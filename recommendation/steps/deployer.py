@@ -8,7 +8,7 @@ from zenml.integrations.seldon.steps.seldon_deployer import (
     seldon_custom_model_deployer_step,
 )
 
-seldon_pytorch_custom_deployment = seldon_custom_model_deployer_step(
+seldon_surprise_custom_deployment = seldon_custom_model_deployer_step(
     params=SeldonDeployerStepParameters(
         service_config=SeldonDeploymentConfig(
             model_name="seldon-svd-custom-model",

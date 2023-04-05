@@ -1,6 +1,6 @@
 """Deploy the recommendation example model."""
 from steps.fetch_model import fetch_model
-from steps.deployer import seldon_pytorch_custom_deployment
+from steps.deployer import seldon_surprise_custom_deployment
 from steps.deployment_trigger import deployment_trigger
 from pipelines.deploy_recommendation_pipeline import recommendation_deployment_pipeline
 from materializer import SurpriseMaterializer
@@ -25,7 +25,7 @@ def run_deployment_pipeline():
     pipeline = recommendation_deployment_pipeline(
         fetch_model().configure(output_materializers=SurpriseMaterializer),
         deployment_trigger(),
-        deploy_model=seldon_pytorch_custom_deployment,
+        deploy_model=seldon_surprise_custom_deployment,
     )
     pipeline.run(config_path="pipelines/config_deploy_recommendation_pipeline.yaml")
     logger.info(
