@@ -23,18 +23,18 @@ zenserver_url=$(sed -n 's/.*"zen-server-url": "\(.*\)".*/\1/p' .matcha/infrastru
 zenserver_username=$(sed -n 's/.*"zen-server-username": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
 zenserver_password=$(sed -n 's/.*"zen-server-password": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state) 
 
+
 echo "Setting up ZenML..."
 {
     export AUTO_OPEN_DASHBOARD=false
-    export AZURE_STORAGE_CONNECTION_STRING="$zenml_connection_string"
-
     az acr login --name="$acr_registry_name"
 
-    zenml init 
+    zenml init
+    zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
-    zenml artifact-store register az_store -f azure --path="$zenml_storage_path"
+    zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
     zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --set
 } >> setup_out.log
