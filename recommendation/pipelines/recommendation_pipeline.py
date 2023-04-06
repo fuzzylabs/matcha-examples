@@ -1,11 +1,14 @@
 """A pipeline to load, train and evaluate a simple recommendation model."""
 from zenml.pipelines import pipeline
+from zenml.config import DockerSettings
+
+docker_settings = DockerSettings(apt_packages=["gcc", "build-essential"])
 
 
-@pipeline
+@pipeline(settings={"docker": docker_settings})
 def recommendation_pipeline(
-    load_data, 
-    train, 
+    load_data,
+    train,
     evaluate,
 ):
     """Recommendation example pipeline.
