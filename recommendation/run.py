@@ -1,10 +1,8 @@
 """Run the recommendation example pipeline."""
-from steps import (
-    load_data,
-    train,
-    evaluate,
-)
-from pipelines import recommendation_pipeline
+from steps.load_data_step import load_data
+from steps.train_step import train
+from steps.evaluate_step import evaluate
+from pipelines.recommendation_pipeline import recommendation_pipeline
 from materializer import SurpriseMaterializer
 
 from zenml.logger import get_logger

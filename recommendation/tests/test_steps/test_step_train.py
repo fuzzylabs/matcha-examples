@@ -1,9 +1,9 @@
 """Test suite for the train step."""
 import pytest
+from recommendation.steps import load_data_step
 
-from steps import (
-    load_data,
-    train,
+from recommendation.steps import (
+    train_step,
 )
 
 from surprise import SVD
@@ -20,7 +20,7 @@ def data(data_parameters: dict) -> Trainset:
     Returns:
         Trainset: training data
     """
-    trainset, _ = load_data.entrypoint(data_parameters)
+    trainset, _ = load_data_step.entrypoint(data_parameters)
 
     return trainset
 
@@ -33,4 +33,4 @@ def test_correct_type(data: Trainset):
     """
     trainset = data
 
-    assert isinstance(train.entrypoint(trainset), SVD)
+    assert isinstance(train_step.entrypoint(trainset), SVD)

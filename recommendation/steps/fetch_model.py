@@ -1,5 +1,5 @@
 """A step to fetch model artifacts for recommendation deployment pipeline."""
-from typing import Optional, Tuple
+from typing import Optional
 
 from zenml.logger import get_logger
 from zenml.post_execution import PipelineView, get_pipeline
@@ -9,6 +9,7 @@ from zenml.steps import BaseParameters, Output, step
 from surprise import SVD
 
 logger = get_logger(__name__)
+
 
 class FetchModelParameters(BaseParameters):
     """Parameters for fetch model step."""
@@ -28,8 +29,10 @@ def get_output_from_step(pipeline: PipelineView, step_name: str) -> ArtifactView
     Args:
         pipeline (PipelineView): Post-execution pipeline class object.
         step_name (str): Name of step to fetch output from
+
     Returns:
         ArtifactView: Artifact data
+
     Raises:
         KeyError: If no step found with given name
         ValueError: If no output found for step
@@ -107,7 +110,5 @@ def fetch_model(
 
     # Fetch the model artifacts from the pipeline
     model = get_model_from_step(pipeline, params.step_name)
-    
-    print(model)
 
     return model

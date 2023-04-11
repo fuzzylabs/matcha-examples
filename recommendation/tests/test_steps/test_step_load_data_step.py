@@ -1,5 +1,5 @@
 """Test suite for the load_data step."""
-from steps import load_data
+from recommendation.steps import load_data_step
 
 from surprise.trainset import Trainset
 
@@ -13,7 +13,7 @@ def test_load_data_step_expected_output_types(data_parameters: dict):
     Args:
         data_parameters (dict): parameters for train test split
     """
-    trainset, testset = load_data.entrypoint(data_parameters)
+    trainset, testset = load_data_step.entrypoint(data_parameters)
 
     assert isinstance(trainset, Trainset)
     assert isinstance(testset, list)
@@ -25,7 +25,7 @@ def test_load_data_step_expected_data_amount(data_parameters: dict):
     Args:
         data_parameters (dict): parameters for train test split
     """
-    trainset, testset = load_data.entrypoint(data_parameters)
+    trainset, testset = load_data_step.entrypoint(data_parameters)
 
     expected_size_train = int(EXPECTED_DATA_LENGTH * (1 - data_parameters.test_size))
     expected_size_test = int(EXPECTED_DATA_LENGTH * data_parameters.test_size)

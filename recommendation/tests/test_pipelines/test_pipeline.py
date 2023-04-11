@@ -3,16 +3,15 @@ import pytest
 
 import os
 import logging
+from recommendation.steps import load_data_step, train_step
 
 from zenml.logger import disable_logging
 from zenml.post_execution import get_unlisted_runs
 from zenml.post_execution.pipeline_run import PipelineRunView
 
 from pipelines import recommendation_pipeline
-from steps import (
-    load_data,
-    train,
-    evaluate,
+from recommendation.steps import (
+    evaluate_step,
 )
 from materializer import SurpriseMaterializer
 
@@ -28,9 +27,9 @@ BENCHMARK_SVD_SCORE = 0.93
 def pipeline_run():
     """Set up fixture for running the pipeline."""
     pipeline = recommendation_pipeline(
-        load_data().configure(output_materializers=SurpriseMaterializer),
-        train().configure(output_materializers=SurpriseMaterializer),
-        evaluate(),
+        load_data_step().configure(output_materializers=SurpriseMaterializer),
+        train_step().configure(output_materializers=SurpriseMaterializer),
+        evaluate_step(),
     )
 
     with disable_logging(log_level=logging.INFO):

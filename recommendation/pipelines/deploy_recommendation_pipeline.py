@@ -1,7 +1,11 @@
 """A pipeline to deploy recommendation model."""
 from zenml.pipelines import pipeline
+from zenml.config import DockerSettings
 
-@pipeline()
+docker_settings = DockerSettings(apt_packages=["gcc", "build-essential"])
+
+
+@pipeline(settings={"docker": docker_settings})
 def recommendation_deployment_pipeline(
     fetch_model, deployment_trigger, deploy_model
 ):

@@ -1,16 +1,9 @@
 """ZenML step to deploy a SVD recommender model to Seldon Core."""
-import os
-from typing import Any, Dict, List, Union
-
-from zenml.integrations.seldon.services import SeldonDeploymentService
-from zenml.logger import get_logger
-from zenml.materializers import UnmaterializedArtifact
-from zenml.steps import BaseParameters, StepContext, step
-
 import numpy as np
+from typing import Any, Dict, List, Union
+from zenml.logger import get_logger
 
 logger = get_logger(__name__)
-
 Array_Like = Union[np.ndarray, List[Any], str, bytes, Dict[str, Any]]
 
 
