@@ -21,7 +21,7 @@ def run_recommendation_pipeline():
         train().configure(output_materializers=SurpriseMaterializer),
         evaluate(),
     )
-    pipeline.run(config_path="pipeline_config.yaml")
+    pipeline.run(config_path="pipelines/config_recommendation_pipeline.yaml")
     logger.info(
         f"Visit: {get_tracking_uri()}\n "
         "To inspect your experiment runs within the mlflow UI.\n"

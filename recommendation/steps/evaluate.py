@@ -5,7 +5,7 @@ from zenml.steps import step
 from surprise import accuracy
 from surprise import SVD
 
-@step(experiment_tracker="mlflow_experiment_tracker")
+@step()
 def evaluate(model: SVD, testset: list) -> float:
     """Make predictions with the testset and compute for the rmse.
 
