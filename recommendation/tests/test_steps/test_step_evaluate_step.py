@@ -1,16 +1,14 @@
 """Test suite for the evaluate step."""
 import pytest
 from typing import Tuple
-from recommendation.steps import load_data_step, train_step
+
+from steps.load_data_step import load_data
+from steps.train_step import train
+from steps.evaluate_step import evaluate
 
 from surprise.trainset import Trainset
 from surprise import Dataset
 from surprise import SVD
-
-from recommendation.steps import (
-    evaluate_step
-)
-
 
 BENCHMARK_SVD_SCORE = 0.93
 
@@ -24,7 +22,7 @@ def data(data_parameters: dict) -> Tuple[Trainset, list]:
     Returns:
         Tuple[Trainset, list]: train and test data
     """
-    trainset, testset = load_data_step.entrypoint(data_parameters)
+    trainset, testset = load_data.entrypoint(data_parameters)
 
     return trainset, testset
 
@@ -41,7 +39,7 @@ def model(data: Dataset) -> SVD:
     """
     trainset, _ = data
 
-    return train_step.entrypoint(trainset)
+    return train.entrypoint(trainset)
 
 
 def test_rmse_equals_benchmarks(model: SVD, data: Dataset):
@@ -52,9 +50,8 @@ def test_rmse_equals_benchmarks(model: SVD, data: Dataset):
         data (Dataset): dataset for testing
     """
     _, testset = data
-    
-    rmse = evaluate_step.entrypoint(model, testset)
 
-     # assert that the accuracy is 0.93 +/- 0.1
+    rmse = evaluate.entrypoint(model, testset)
+
+    # assert that the accuracy is 0.93 +/- 0.1
     assert rmse == pytest.approx(BENCHMARK_SVD_SCORE, rel=0.1)
-    
