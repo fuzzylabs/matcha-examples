@@ -2,7 +2,9 @@
 from zenml.pipelines import pipeline
 from zenml.config import DockerSettings
 
-docker_settings = DockerSettings(apt_packages=["gcc", "build-essential"])
+# environment related issue: https://github.com/NicolasHug/Surprise/issues/364
+docker_settings = DockerSettings(apt_packages=["gcc", "build-essential"], 
+                                 environment={"SURPRISE_DATA_FOLDER": "/tmp"})
 
 
 @pipeline(settings={"docker": docker_settings})
