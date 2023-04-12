@@ -2,7 +2,7 @@
 from zenml.pipelines import pipeline
 from zenml.config import DockerSettings
 
-# environment related issue: https://github.com/NicolasHug/Surprise/issues/364
+# This fixes an environment related issue with the Surprise module, see here: https://github.com/NicolasHug/Surprise/issues/364
 docker_settings = DockerSettings(apt_packages=["gcc", "build-essential"], 
                                  environment={"SURPRISE_DATA_FOLDER": "/tmp"})
 
