@@ -16,7 +16,7 @@ seldon_surprise_custom_deployment = seldon_custom_model_deployer_step(
             replicas=1,
             implementation="custom",
             resources=SeldonResourceRequirements(
-                limits={"cpu": "200m", "memory": "250Mi"}
+                limits={"cpu": "100m", "memory": "250Mi"}
             ),
         ),
         timeout=240,
