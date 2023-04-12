@@ -31,9 +31,7 @@ def custom_predict(
     """
     inputs = []
     
-    # Iterate through samples
     for instance in request:
-        # Get prediction for each sample
         pred = model.predict(instance['uid'], instance['iid'])
         cleaned_pred = {'predicted_rating': pred.est, 'uid': pred.uid, 'iid': pred.iid}
         inputs.append(cleaned_pred)
