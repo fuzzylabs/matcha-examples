@@ -1,4 +1,4 @@
-"""ZenML step to deploy a SVD recommender model to Seldon Core."""
+"""Functions required by ZenML and Seldon to deploy a custom SVD recommender model to Seldon Core."""
 import numpy as np
 from typing import Any, Dict, List, Union
 from zenml.logger import get_logger

@@ -1,3 +1,4 @@
+"""Custom Seldon deployer step."""
 from zenml.integrations.seldon.seldon_client import SeldonResourceRequirements
 from zenml.integrations.seldon.services.seldon_deployment import (
     SeldonDeploymentConfig,
