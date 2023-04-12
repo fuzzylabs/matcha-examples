@@ -1,0 +1,17 @@
+settings:
+  docker:
+    dockerignore: .dockerignore
+    requirements:
+      - scikit-surprise==1.1.3
+steps:
+  fetch_model:
+    enable_cache: False
+    parameters:
+      # Name of the pipeline to fetch from
+      pipeline_name: "recommendation_pipeline"
+      # Variables for step name.
+      step_name: "train"
+  deployment_trigger:
+    enable_cache: False
+  deploy_model:
+    enable_cache: False

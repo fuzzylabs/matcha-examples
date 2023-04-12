@@ -1,5 +1,5 @@
 """Test suite for the load_data step."""
-from steps import load_data
+from steps.load_data_step import load_data
 
 from surprise.trainset import Trainset
 

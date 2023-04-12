@@ -2,16 +2,13 @@
 import pytest
 from typing import Tuple
 
+from steps.load_data_step import load_data
+from steps.train_step import train
+from steps.evaluate_step import evaluate
+
 from surprise.trainset import Trainset
 from surprise import Dataset
 from surprise import SVD
-
-from steps import (
-    load_data,
-    train,
-    evaluate
-)
-
 
 BENCHMARK_SVD_SCORE = 0.93
 
@@ -53,9 +50,8 @@ def test_rmse_equals_benchmarks(model: SVD, data: Dataset):
         data (Dataset): dataset for testing
     """
     _, testset = data
-    
+
     rmse = evaluate.entrypoint(model, testset)
 
-     # assert that the accuracy is 0.93 +/- 0.1
+    # assert that the accuracy is 0.93 +/- 0.1
     assert rmse == pytest.approx(BENCHMARK_SVD_SCORE, rel=0.1)
-    

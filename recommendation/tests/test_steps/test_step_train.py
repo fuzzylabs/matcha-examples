@@ -1,10 +1,7 @@
 """Test suite for the train step."""
 import pytest
-
-from steps import (
-    load_data,
-    train,
-)
+from steps.load_data_step import load_data
+from steps.train_step import train
 
 from surprise import SVD
 from surprise.trainset import Trainset
