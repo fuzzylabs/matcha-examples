@@ -15,12 +15,3 @@ steps:
     enable_cache: False
   deploy_model:
     enable_cache: False
-    parameters:
-      model_name: "recommendation-model"
-      timeout: 120
-      engineResources:
-        requests:
-          cpu: 100m
-      containerResources:
-        requests:
-          cpu: 100m
