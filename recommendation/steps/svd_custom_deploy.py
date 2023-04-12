@@ -33,8 +33,7 @@ def custom_predict(
     
     for instance in request:
         pred = model.predict(instance['uid'], instance['iid'])
-        cleaned_pred = {'predicted_rating': pred.est, 'uid': pred.uid, 'iid': pred.iid}
-        inputs.append(cleaned_pred)
+        inputs.append(pred._asdict())
         
     return inputs
     
