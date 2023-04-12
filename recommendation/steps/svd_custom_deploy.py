@@ -13,7 +13,8 @@ def custom_predict(
 ) -> Array_Like:
     """Custom Prediction function for SVD models.
     
-    Request input is in the format: [{"iid": "302", "uid": "196"}] where each dictionary is a sample.
+    Request input is in the format: [{"iid": "2", "uid": "26"}, {"iid": "11", "uid": "7"}] 
+    where each dictionary is a sample containing a user ID and a item ID to get an expected rating for.
 
     The custom predict function is the core of the custom deployment, the 
     function is called by the custom deployment class defined for the serving 
@@ -29,9 +30,12 @@ def custom_predict(
         List[Any], str, bytes, Dict[str, Any])
     """
     inputs = []
+    
+    # Iterate through samples
     for instance in request:
+        # Get prediction for each sample
         pred = model.predict(instance['uid'], instance['iid'])
-        cleaned_pred = {'predicted_rating': pred.est, 'uid': pred.uid, 'iid': pred.iid, 'details': pred.details}
+        cleaned_pred = {'predicted_rating': pred.est, 'uid': pred.uid, 'iid': pred.iid}
         inputs.append(cleaned_pred)
         
     return inputs
