@@ -61,6 +61,8 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 Use matcha to run the example 🍵:
 
+> This will both train the recommendation model and deploy it.
+
 ```bash
 matcha run
 ```
@@ -68,4 +70,25 @@ matcha run
 [Optional] Run the tests:
 ```bash
 python -m pytest tests
+```
+
+## Query the deployed model
+
+✅ You've trained a model 
+
+✅ You've deployed it 
+
+❓ And now you want to get predictions. 
+
+
+We've created a handy inference script which you can use to send a `user_id` and a `movie_id` to the deployed model get a predicted rating:
+
+```bash
+python inference.py --user 100 --movie 100
+```
+
+And the output should be something similar to:
+
+```bash
+User 100 is predicted to give movie 100 a rating of: 4.2 out of 5
 ```
