@@ -35,6 +35,16 @@ source venv/bin/activate
 
 > There is a requirement for the Python version being used to be 3.8+. We recommend making use of [pyenv](https://github.com/pyenv/pyenv) to manage your versions.
 
+⚠️ Provisioning ⚠️
+ 
+The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
+
+```bash
+matcha provision
+```
+
+Once that's finished, crack on!
+
 Set up the environment:
 
 This will install the requirements for the example (see [requirements.txt](requirements.txt)) and setup [ZenML](https://docs.zenml.io/getting-started/introduction):
