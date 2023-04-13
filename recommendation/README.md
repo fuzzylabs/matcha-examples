@@ -39,6 +39,8 @@ source venv/bin/activate
  
 The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
 
+> You need to be in the `recommendations` directory before running this!
+
 ```bash
 matcha provision
 ```
@@ -90,5 +92,12 @@ python inference.py --user 100 --movie 100
 And the output should be something similar to:
 
 ```bash
-User 100 is predicted to give movie 100 a rating of: 4.2 out of 5
+User 100 is predicted to give the movie (100) a rating of: 4.2 out of 5
 ```
+
+> Alternatively, you can `curl` the endpoint with the following:
+> ```bash
+> curl -XPOST -H 'Content-Type: application/json' -d '{"data": {"ndarray": [{"iid": "302", "uid": "196"}]}}' <endpoint_url>
+> ```
+>
+> The output will be the raw predictions sent back by the model!
