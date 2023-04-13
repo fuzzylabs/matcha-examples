@@ -45,9 +45,12 @@ def download_dataset(params: DownloadDataParams) -> dict:
         response = requests.get(DATASET_URL)
         data = response.json()
 
-        # Write data to json file
-        with open(data_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+        if response.status_code == 200:
+            # Write data to json file
+            with open(data_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
 
-        logger.info(f"Dataset downloaded to {params.data_dir}")
-        return data
+            logger.info(f"Dataset downloaded to {params.data_dir}")
+            return data
+        else:
+            logger.error(f"Error downloading dataset: {response.status_code}")
