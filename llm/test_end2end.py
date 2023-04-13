@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 from functools import partial
 from datasets import Dataset
-from transformers import AutoTokenizer, BatchEncoding
+from transformers import AutoTokenizer
 
 DATASET_URL = "https://raw.githubusercontent.com/lauramanor/legal_summarization/master/all_v1.json"
 
@@ -49,7 +49,6 @@ def preprocess_function(dataset: Dataset, model_name, prefix):
     labels = tokenizer(text_target=dataset["summary"], max_length=128, truncation=True)
 
     model_inputs["labels"] = labels["input_ids"]
-    print(isinstance(model_inputs, BatchEncoding))
     return model_inputs
 
 
