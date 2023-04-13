@@ -24,7 +24,6 @@ def test_convert_to_hg_dataset_step(mock_data: dict):
         mock_data (dict): Fixture to mock input data
     """
     hg_dataset = convert_to_hg_dataset.entrypoint(mock_data)
-
     expected_features = ["text", "summary"]
 
     # Check if the output is a huggingface `Dataset` object
