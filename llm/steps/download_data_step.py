@@ -27,6 +27,9 @@ def download_dataset(params: DownloadDataParams) -> dict:
 
     Returns:
         dict: Dataset in dictionary format.
+
+    Raises:
+        Exception: If dataset cannot be downloaded.
     """
     # Check if dataset already exists
     data_path = os.path.join(params.data_dir, "summarization_dataset.json")
@@ -43,9 +46,9 @@ def download_dataset(params: DownloadDataParams) -> dict:
 
         # Get the dataset from the url
         response = requests.get(DATASET_URL)
-        data = response.json()
 
         if response.status_code == 200:
+            data = response.json()
             # Write data to json file
             with open(data_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
@@ -53,4 +56,6 @@ def download_dataset(params: DownloadDataParams) -> dict:
             logger.info(f"Dataset downloaded to {params.data_dir}")
             return data
         else:
-            logger.error(f"Error downloading dataset: {response.status_code}")
+            err_msg = f"Error downloading dataset with response: {response.status_code}"
+            logger.error(err_msg)
+            raise Exception(err_msg)

@@ -40,7 +40,7 @@ def get_params(temp_testing_directory: str) -> dict:
     return params
 
 
-def test_download_data(get_params: dict):
+def test_download_data_step(get_params: dict):
     """Test the download data step.
 
     Args:
@@ -62,3 +62,23 @@ def test_download_data(get_params: dict):
         # Check if file is created inside folder
         file_path = os.path.join(get_params.data_dir, "summarization_dataset.json")
         assert os.path.exists(file_path)
+
+
+def test_download_data_step_invalid_url(get_params: dict):
+    """Test the download data step.
+
+    Args:
+        get_params (dict): Fixture containing paramters for step.
+    """
+    dummy_dict = {'text': 'summary'}
+    with mock.patch("requests.get") as mockresponse:
+        mockresponse.return_value.status_code = 404
+        mockresponse.return_value.json.return_value = dummy_dict
+
+        with pytest.raises(Exception) as exc_info:
+            _ = download_dataset.entrypoint(get_params)
+
+    assert (
+        str(exc_info.value)
+        == "Error downloading dataset with response: 404"
+    )
