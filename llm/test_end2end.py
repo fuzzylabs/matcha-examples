@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 from functools import partial
 from datasets import Dataset
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, BatchEncoding
 
 DATASET_URL = "https://raw.githubusercontent.com/lauramanor/legal_summarization/master/all_v1.json"
 
@@ -42,29 +42,30 @@ def convert_to_hg_dataset(data: dict):
     return dataset
 
 
-def preprocess_function(dataset: Dataset):
-    prefix = "summarize: "
-    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
+def preprocess_function(dataset: Dataset, model_name, prefix):
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     inputs = [prefix + doc for doc in dataset["text"]]
     model_inputs = tokenizer(inputs, max_length=1024, truncation=True)
     labels = tokenizer(text_target=dataset["summary"], max_length=128, truncation=True)
 
     model_inputs["labels"] = labels["input_ids"]
+    print(isinstance(model_inputs, BatchEncoding))
     return model_inputs
 
 
-def preprocess_dataset(dataset: Dataset, test_size: float):
-    tokenized_data = dataset.map(preprocess_function, batched=True)
+def preprocess_dataset(dataset: Dataset, test_size: float, model_name: str, prefix: str):
+    tokenized_data = dataset.map(partial(preprocess_function, model_name=model_name, prefix=prefix), batched=True)
     return tokenized_data.train_test_split(test_size=test_size)
 
 
 if __name__ == "__main__":
     data_dir = "data/"
+    prefix = "summarize: "
     model_name = "google/flan-t5-base"
     test_size = 0.2
     data_path = os.path.join(data_dir, "summarization_dataset.json")
 
     data = download_dataset(data_dir)
     dataset = convert_to_hg_dataset(data)
-    tokenized_data = preprocess_dataset(dataset, test_size)
+    tokenized_data = preprocess_dataset(dataset, test_size, model_name, prefix)
     print(tokenized_data)
