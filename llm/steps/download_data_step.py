@@ -19,17 +19,23 @@ class DownloadDataParams(BaseParameters):
 
 
 @step
-def download_dataset(params: DownloadDataParams) -> None:
+def download_dataset(params: DownloadDataParams) -> dict:
     """Zenml step to download summarization dataset.
 
     Args:
         params (DownloadDataParams): Parameters for downloading dataset.
+
+    Returns:
+        dict: Dataset in dictionary format.
     """
     # Check if dataset already exists
     data_path = os.path.join(params.data_dir, "summarization_dataset.json")
     if os.path.exists(data_path):
-        logger.info(f"Dataset already exists at {params.data_dir}")
-        return
+        logger.info(f"Dataset already exists at {data_path}")
+
+        json_data = open(data_path).read()
+        data = json.loads(json_data)
+        return data
 
     else:
         logger.info("Downloading dataset")
@@ -44,3 +50,4 @@ def download_dataset(params: DownloadDataParams) -> None:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
         logger.info(f"Dataset downloaded to {params.data_dir}")
+        return data
