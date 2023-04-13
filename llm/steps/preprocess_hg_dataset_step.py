@@ -70,6 +70,7 @@ def preprocess_dataset(dataset: Dataset, params: PreprocessParameters) -> Datase
     Returns:
         DatasetDict: Tokenized dataset split into train and test.
     """
+    # Tokenize and preprocess dataset
     tokenized_data = dataset.map(partial(preprocess_function,
                                          model_name=params.model_name,
                                          prefix=params.prefix,
@@ -77,7 +78,10 @@ def preprocess_dataset(dataset: Dataset, params: PreprocessParameters) -> Datase
                                          target_max_length=params.target_max_length
                                          ),
                                  batched=True)
+
+    # Split into train and test
     tokenized_data = tokenized_data.train_test_split(test_size=params.test_size)
+
     logger.info(f"Number of examples in training set: {len(tokenized_data['train'])}")
     logger.info(f"Number of examples in test set: {len(tokenized_data['test'])}")
     return tokenized_data
