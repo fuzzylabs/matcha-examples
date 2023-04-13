@@ -45,8 +45,8 @@ def convert_to_hg_dataset(data: dict):
 def preprocess_function(dataset: Dataset, model_name, prefix):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     inputs = [prefix + doc for doc in dataset["text"]]
-    model_inputs = tokenizer(inputs, max_length=1024, truncation=True)
-    labels = tokenizer(text_target=dataset["summary"], max_length=128, truncation=True)
+    model_inputs = tokenizer(inputs, max_length=1024, truncation=True, padding="max_length")
+    labels = tokenizer(text_target=dataset["summary"], max_length=128, truncation=True, padding="max_length")
 
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
