@@ -11,7 +11,9 @@ logger = get_logger(__name__)
 
 def run_llm_finetuning_pipeline():
     """Run all steps in the llm finetuning pipeline."""
-    pipeline = llm_finetuning_pipeline(download_dataset(), convert_to_hg_dataset(), preprocess_dataset())
+    pipeline = llm_finetuning_pipeline(download_dataset(),
+                                       convert_to_hg_dataset(),
+                                       preprocess_dataset())
     pipeline.run(config_path="pipelines/config_llm_finetuning_pipeline.yaml")
 
 

@@ -25,9 +25,9 @@ def test_convert_to_hg_dataset_step(mock_data: dict):
     """
     hg_dataset = convert_to_hg_dataset.entrypoint(mock_data)
 
-    # Check if the output is a huggingface `Dataset` object
     expected_features = ["text", "summary"]
 
+    # Check if the output is a huggingface `Dataset` object
     assert isinstance(hg_dataset, datasets.Dataset)
 
     # Check if the output has the expected number of features
