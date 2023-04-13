@@ -65,7 +65,7 @@ def test_download_data_step(get_params: dict):
 
 
 def test_download_data_step_invalid_url(get_params: dict):
-    """Test the download data step.
+    """Test the download data step when invalid url is passed.
 
     Args:
         get_params (dict): Fixture containing paramters for step.
