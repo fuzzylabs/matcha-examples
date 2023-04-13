@@ -7,7 +7,13 @@ This repository contains a whole suite of example workflows which can be used in
 
 Before you dive into the examples, each require some resources provisioned in the cloud - Azure specifically.
 
-To provision a set of default infrastructure, run the following:
+First, move into the example directory that you're wanting to explore (we'll use the recommendation one as an example):
+
+```bash
+cd recommendation
+```
+
+Now, to provision a set of default infrastructure, run the following:
 
 ```bash
 matcha provision
