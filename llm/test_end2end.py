@@ -1,15 +1,16 @@
 import os
 import json
+from typing import Any, Dict
+
 import requests
 import pandas as pd
-from functools import partial
 from datasets import Dataset
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, Seq2SeqTrainer
 
 DATASET_URL = "https://raw.githubusercontent.com/lauramanor/legal_summarization/master/all_v1.json"
 
 
-def download_dataset(data_dir: str) -> None:
+def download_dataset(data_dir: str) -> Dict[str, Any]:
     data_path = os.path.join(data_dir, "summarization_dataset.json")
     if os.path.exists(data_path):
         print(f"Dataset already exists at {data_path}")
@@ -57,6 +58,21 @@ def preprocess_dataset(dataset: Dataset, test_size: float, model_name: str, pref
     return tokenized_data.train_test_split(test_size=test_size)
 
 
+def get_model():
+    return AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-base")
+
+
+def finetune(model: AutoModelForSeq2SeqLM, train_dataset, test_dataset):
+    trainer = Seq2SeqTrainer(
+        model=model,
+        train_dataset=train_dataset,
+        eval_dataset=test_dataset
+    )
+    print(train_dataset[0])
+
+    return trainer.train()
+
+
 if __name__ == "__main__":
     data_dir = "data/"
     prefix = "summarize: "
@@ -68,3 +84,8 @@ if __name__ == "__main__":
     dataset = convert_to_hg_dataset(data)
     tokenized_data = preprocess_dataset(dataset, test_size, model_name, prefix)
     print(tokenized_data)
+    print(tokenized_data["train"])
+
+    model = get_model()
+    finetuned_model = finetune(model, tokenized_data["train"], tokenized_data["test"])
+    print(finetuned_model)
