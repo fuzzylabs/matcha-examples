@@ -1,6 +1,6 @@
-# LLM Summarization using `matcha`
+# LLM Summarization example using `matcha`
 
-In this example, we will fine-tune a Large Language Model (LLM) for summarization task. We will provision the resources required for running this example using `matcha`.
+In this example, we will fine-tune a Large Language Model (LLM) for summarization task. We will provision the resources required for running this example using `matcha` 🍵.
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
