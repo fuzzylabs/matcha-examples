@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  ci-tests:
+  main:
     name: Pytest CI
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - uses: dorny/paths-filter@v2
-        id: ci-tests
+        id: main
         with:
           filters: |
             llm:
@@ -29,8 +29,9 @@ jobs:
               - 'recommendation/**'
 
   recommendation:
-    needs: ci-tests
-    if: ${{ needs.ci-tests.outputs.recommendation == 'true' }}
+    name: Recommendation Example CI
+    needs: main
+    if: ${{ needs.main.outputs.recommendation == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -75,8 +76,9 @@ jobs:
           python -m pytest recommendation/tests/
 
   llm:
-    needs: ci-tests
-    if: ${{ needs.ci-tests.outputs.llm == 'true' }}
+    name: LLM Example CI
+    needs: main
+    if: ${{ needs.main.outputs.llm == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
