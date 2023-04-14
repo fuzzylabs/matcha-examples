@@ -32,7 +32,6 @@ def download_dataset(params: DownloadDataParams) -> dict:
     Raises:
         Exception: If dataset cannot be downloaded.
     """
-    # Check if dataset already exists
     data_path = os.path.join(params.data_dir, "summarization_dataset.json")
     if os.path.exists(data_path):
         logger.info(f"Dataset already exists at {data_path}")
@@ -46,25 +45,21 @@ def download_dataset(params: DownloadDataParams) -> dict:
         os.makedirs(params.data_dir, exist_ok=True)
 
         try:
-            # Get the dataset from the url
             response = requests.get(DATASET_URL)
-
-            # Wait for response status
             response.raise_for_status()
 
         except HTTPError as http_err:
-            err_msg = f'HTTP error occurred: {http_err}'
+            err_msg = f'HTTP Error: {http_err}'
             logger.error(err_msg)
             raise Exception(err_msg)
 
         except Exception as err:
-            err_msg = f'Other error occurred: {err}'
+            err_msg = f'An error occurred: {err}'
             logger.error(err_msg)
             raise Exception(err_msg)
 
         else:
             data = response.json()
-            # Write data to json file
             with open(data_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
