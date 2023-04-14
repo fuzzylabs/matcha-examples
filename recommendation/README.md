@@ -1,6 +1,6 @@
 # A movie recommendation example using `matcha`
 
-This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵.
+This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵. 
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
@@ -36,7 +36,7 @@ pip install matcha
 ```
 
 ⚠️ Provisioning ⚠️
-
+ 
 The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
 
 > You need to be in the `recommendations` directory before running this!
@@ -59,7 +59,7 @@ This will install the requirements for the example (see [requirements.txt](requi
 >
 > On completion, this will open a browser window for the ZenML server but you can ignore this for the time being (if you want to explore, then the username is `default` and there's no password - see the [ZenML documentation](https://docs.zenml.io/getting-started/introduction) for more information).
 
-## `matcha` time
+## `matcha` time!
 
 Use matcha to run the example 🍵:
 
@@ -70,18 +70,18 @@ matcha run
 ```
 
 [Optional] Run the tests:
-
 ```bash
 python -m pytest tests
 ```
 
 ## Query the deployed model
 
-✅ You've trained a model
+✅ You've trained a model 
 
-✅ You've deployed it
+✅ You've deployed it 
 
-❓ And now you want to get predictions.
+❓ And now you want to get predictions. 
+
 
 We've created a handy inference script which you can use to send a `user_id` and a `movie_id` to the deployed model get a predicted rating:
 
@@ -96,7 +96,6 @@ User 100 is predicted to give the movie (100) a rating of: 4.2 out of 5
 ```
 
 > Alternatively, you can `curl` the endpoint with the following:
->
 > ```bash
 > curl -XPOST -H 'Content-Type: application/json' -d '{"data": {"ndarray": [{"iid": "302", "uid": "196"}]}}' <endpoint_url>
 > ```
