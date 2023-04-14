@@ -39,7 +39,7 @@ def _create_payload(user: str, movie: str) -> dict:
     """
     return {
         "data": {
-            "ndarray": [{"uid": user, "iid": movie}]
+            "ndarray": [{"uid": str(user), "iid": str(movie)}]
         }
     }
 
