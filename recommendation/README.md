@@ -55,7 +55,7 @@ Use matcha to run the example training pipeline 🍵:
 matcha run train
 ```
 
-And to deploy the model use:
+And to deploy the model run the following command:
 
 ```bash
 matcha run deploy
