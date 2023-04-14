@@ -3,7 +3,7 @@ echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
     
-    zenml integration install huggingface -y
+    zenml integration install huggingface pytorch -y
 } >> setup_out.log
 
 

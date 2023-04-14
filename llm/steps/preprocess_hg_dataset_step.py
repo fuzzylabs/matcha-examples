@@ -54,12 +54,10 @@ def preprocess_function(dataset: Dataset,
     # Tokenize input and target
     model_inputs = tokenizer(inputs,
                              max_length=input_max_length,
-                             truncation=True,
-                             padding="max_length")
+                             truncation=True)
     labels = tokenizer(text_target=dataset["summary"],
                        max_length=target_max_length,
-                       truncation=True,
-                       padding="max_length")
+                       truncation=True)
 
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
