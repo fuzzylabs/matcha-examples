@@ -13,7 +13,7 @@ steps:
     enable_cache: False
     parameters:
       # Name of LLM model to finetune.
-      model_name: "google/flan-t5-base"
+      model_name: "google/flan-t5-small"
       # Prefix to be added to the input (required for T5 LLM family)
       prefix: "summarize: "
       # Max length of the input text
