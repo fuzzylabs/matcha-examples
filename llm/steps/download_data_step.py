@@ -2,6 +2,7 @@
 import os
 import requests
 import json
+from requests.exceptions import HTTPError
 
 from zenml.logger import get_logger
 from zenml.steps import step, BaseParameters
@@ -44,10 +45,23 @@ def download_dataset(params: DownloadDataParams) -> dict:
         logger.info("Downloading dataset")
         os.makedirs(params.data_dir, exist_ok=True)
 
-        # Get the dataset from the url
-        response = requests.get(DATASET_URL)
+        try:
+            # Get the dataset from the url
+            response = requests.get(DATASET_URL)
+            # Wait for response status
+            response.raise_for_status()
 
-        if response.status_code == 200:
+        except HTTPError as http_err:
+            err_msg = f'HTTP error occurred: {http_err}'
+            logger.error(err_msg)
+            raise Exception(err_msg)
+
+        except Exception as err:
+            err_msg = f'Other error occurred: {err}'
+            logger.error(err_msg)
+            raise Exception(err_msg)
+
+        else:
             data = response.json()
             # Write data to json file
             with open(data_path, 'w', encoding='utf-8') as f:
@@ -55,7 +69,3 @@ def download_dataset(params: DownloadDataParams) -> dict:
 
             logger.info(f"Dataset downloaded to {params.data_dir}")
             return data
-        else:
-            err_msg = f"Error downloading dataset with response: {response.status_code}"
-            logger.error(err_msg)
-            raise Exception(err_msg)
