@@ -48,6 +48,7 @@ def download_dataset(params: DownloadDataParams) -> dict:
         try:
             # Get the dataset from the url
             response = requests.get(DATASET_URL)
+
             # Wait for response status
             response.raise_for_status()
 
