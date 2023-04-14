@@ -1,11 +1,15 @@
-name: CI
+name: LLM Example CI
 
 on:
   workflow_call:
   pull_request:
+    paths:
+      - llm/**
     branches:
       - main
   push:
+    paths:
+      - llm/**
     branches:
       - main
 
@@ -36,7 +40,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('recommendation/requirements.txt') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('llm/requirements.txt') }}
 
       # Install dependencies if cache does not exist
       - name: Install dependencies
@@ -46,20 +50,18 @@ jobs:
 
           python3 -m venv venv 
 
-          venv/bin/python3 -m pip install -r recommendation/requirements.txt
+          venv/bin/python3 -m pip install -r llm/requirements.txt
 
       - name: Setup ZenML
         run: |
           source venv/bin/activate
 
-          zenml integration install mlflow -y
+          zenml integration install huggingface pytorch -y
 
-          zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow
-
-          zenml stack register custom_stack -e mlflow_experiment_tracker -a default -o default --set
+          zenml stack register llm_stack -a default -o default --set
 
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
-
-          python -m pytest recommendation/tests/
+          cd llm
+          python -m pytest tests/
