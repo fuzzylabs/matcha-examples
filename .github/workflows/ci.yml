@@ -10,14 +10,11 @@ on:
       - main
 
 jobs:
+
   changes:
     name: Pytest CI
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
-    # Required permissions
-    permissions:
-      pull-requests: read
 
     # Set job outputs to values from filter step
     outputs:
