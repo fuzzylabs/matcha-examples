@@ -4,12 +4,12 @@ on:
   workflow_call:
   pull_request:
     paths:
-      - llm/**
+      - 'llm/**'
     branches:
       - main
   push:
     paths:
-      - llm/**
+      - 'llm/**'
     branches:
       - main
 
