@@ -49,10 +49,16 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 ## `matcha` time!
 
-Use matcha to run the example 🍵:
+Use matcha to run the example training pipeline 🍵:
 
 ```bash
-matcha run
+matcha run train
+```
+
+And to deploy the model use:
+
+```bash
+matcha run deploy
 ```
 
 [Optional] Run the tests:
