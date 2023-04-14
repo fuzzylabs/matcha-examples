@@ -10,17 +10,26 @@ on:
       - main
 
 jobs:
-  main:
+  changes:
     name: Pytest CI
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    
+    # Required permissions
+    permissions:
+      pull-requests: read
+
+    # Set job outputs to values from filter step
+    outputs:
+      llm: ${{ steps.filter.outputs.llm }}
+      recommendation: ${{ steps.filter.outputs.recommendation }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - uses: dorny/paths-filter@v2
-        id: main
+        id: filter
         with:
           filters: |
             llm:
@@ -30,8 +39,8 @@ jobs:
 
   recommendation:
     name: Recommendation Example CI
-    needs: main
-    if: ${{ needs.main.outputs.recommendation == 'true' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.recommendation == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -77,8 +86,8 @@ jobs:
 
   llm:
     name: LLM Example CI
-    needs: main
-    if: ${{ needs.main.outputs.llm == 'true' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.llm == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
