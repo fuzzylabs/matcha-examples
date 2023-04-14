@@ -14,12 +14,6 @@ Clone this repo:
 git clone git@github.com:fuzzylabs/matcha-examples.git
 ```
 
-Install matcha:
-
-```bash
-pip install matcha
-```
-
 Go to the recommendation example directory:
 
 ```bash
@@ -34,6 +28,12 @@ source venv/bin/activate
 ```
 
 > There is a requirement for the Python version being used to be 3.8+. We recommend making use of [pyenv](https://github.com/pyenv/pyenv) to manage your versions.
+
+Install matcha:
+
+```bash
+pip install matcha
+```
 
 :warning: Provisioning :warning:
 
