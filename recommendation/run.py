@@ -46,12 +46,24 @@ def run_deployment_pipeline():
 @click.option("--train", "-t", is_flag=True, help="Run training pipeline")
 @click.option("--deploy", "-d", is_flag=True, help="Run the deployment pipeline")
 def main(train: bool, deploy: bool):
-    """Run all pipelines."""
+    """Run all pipelines.
+    
+    args:
+        train (bool): Flag for running the training pipeline.
+        deploy (bool): Flag for running the deployment pipeline.
+    """
     if train:
         logger.info("Running recommendation training pipeline.")
         run_recommendation_pipeline()
     
     if deploy:
+        logger.info("Running deployment pipeline.")
+        run_deployment_pipeline()
+    
+    if (not train) and (not deploy):
+        logger.info("Running recommendation training pipeline.")
+        run_recommendation_pipeline()
+        
         logger.info("Running deployment pipeline.")
         run_deployment_pipeline()
 
