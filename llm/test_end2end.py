@@ -62,13 +62,13 @@ def prepare_training_args():
         output_dir="models",
         # evaluation_strategy="epoch",
         learning_rate=2e-5,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
+        per_device_train_batch_size=4,
+        per_device_eval_batch_size=4,
         weight_decay=0.01,
         save_total_limit=1,
         num_train_epochs=2,
         predict_with_generate=True,
-        fp16=False,
+        fp16=True,
         push_to_hub=False,
     )
     return training_args
@@ -94,7 +94,7 @@ def finetune_model(tokenized_data, model_name, training_args):
 if __name__ == "__main__":
     data_dir = "data/"
     prefix = "summarize: "
-    model_name = "google/flan-t5-base"
+    model_name = "google/flan-t5-small"
     test_size = 0.2
     data_path = os.path.join(data_dir, "summarization_dataset.json")
 
