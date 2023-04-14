@@ -10,8 +10,34 @@ on:
       - main
 
 jobs:
-  ci-tests:
+
+  changes:
     name: Pytest CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Set job outputs to values from filter step
+    outputs:
+      llm: ${{ steps.filter.outputs.llm }}
+      recommendation: ${{ steps.filter.outputs.recommendation }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            llm:
+              - 'llm/**'
+            recommendation:
+              - 'recommendation/**'
+
+  recommendation:
+    name: Recommendation Example CI
+    needs: changes
+    if: ${{ needs.changes.outputs.recommendation == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,23 +69,66 @@ jobs:
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: |
           if [ -d "venv" ]; then rm -rf venv; fi
-
           python3 -m venv venv 
-
           venv/bin/python3 -m pip install -r recommendation/requirements.txt
 
       - name: Setup ZenML
         run: |
           source venv/bin/activate
-
           zenml integration install mlflow -y
-
           zenml experiment-tracker register mlflow_experiment_tracker --flavor=mlflow
-
           zenml stack register custom_stack -e mlflow_experiment_tracker -a default -o default --set
 
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
-
           python -m pytest recommendation/tests/
+
+  llm:
+    name: LLM Example CI
+    needs: changes
+    if: ${{ needs.changes.outputs.llm == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.10"]
+    timeout-minutes: 15
+
+    # disable zenml analytics logging for ci
+    env:
+      ZENML_ANALYTICS_OPT_IN: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Load cached venv
+        id: python_cache
+        uses: actions/cache@v3
+        with:
+          path: venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('llm/requirements.txt') }}
+
+      # Install dependencies if cache does not exist
+      - name: Install dependencies
+        if: steps.python_cache.outputs.cache-hit != 'true'
+        run: |
+          if [ -d "venv" ]; then rm -rf venv; fi
+          python3 -m venv venv 
+          venv/bin/python3 -m pip install -r llm/requirements.txt
+
+      - name: Setup ZenML
+        run: |
+          source venv/bin/activate
+          zenml integration install huggingface pytorch -y
+          zenml stack register llm_stack -a default -o default --set
+
+      - name: Run tests with pytest
+        run: |
+          source venv/bin/activate
+          python -m pytest llm/tests/
