@@ -65,5 +65,5 @@ jobs:
       - name: Run tests with pytest
         run: |
           source venv/bin/activate
-
-          python -m pytest recommendation/tests/
+          cd recommendation
+          python -m pytest tests/
