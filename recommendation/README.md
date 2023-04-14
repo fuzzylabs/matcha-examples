@@ -1,6 +1,6 @@
 # A movie recommendation example using `matcha`
 
-This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵.
+This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵. 
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
