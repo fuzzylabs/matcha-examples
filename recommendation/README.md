@@ -61,12 +61,24 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 ## `matcha` time!
 
-Use matcha to run the example 🍵:
+Use matcha to run the pipelines which will train and deploy a model 🍵:
 
 > This will both train the recommendation model and deploy it.
 
 ```bash
 matcha run
+```
+
+Use matcha to run only the training portion of the pipeline:
+
+```bash
+matcha run train
+```
+
+Use matcha to run just the deployment portion of the pipeline (note: you will need to run the command above for this to work):
+
+```bash
+matcha run deploy
 ```
 
 [Optional] Run the tests:
