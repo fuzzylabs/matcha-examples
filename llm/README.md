@@ -54,8 +54,6 @@ This will install the requirements for the example (see [requirements.txt](requi
 ```
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
->
-> On completion, this will open a browser window for the ZenML server but you can ignore this for the time being (if you want to explore, then the username is `default` and there's no password - see the [ZenML documentation](https://docs.zenml.io/getting-started/introduction) for more information).
 
 ## `matcha` time
 
