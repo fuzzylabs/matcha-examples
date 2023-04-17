@@ -36,6 +36,30 @@ zenserver_password=$(get_state_value zen-server-password)
 seldon_workload_namespace=$(get_state_value seldon-workloads-namespace)
 seldon_ingress_host=$(get_state_value seldon-base-url)
 
+# A list of env to check
+variables=(
+  mlflow_tracking_url
+  zenml_storage_path
+  zenml_connection_string
+  k8s_context
+  acr_registry_uri
+  acr_registry_name
+  zenserver_url
+  zenserver_username
+  zenserver_password
+  seldon_workload_namespace
+  seldon_ingress_host
+)
+
+# Loop through the array and check whether a variable is empty
+for variable in "${variables[@]}"; do
+  value=${!variable}
+  if [ -z "$value" ]; then
+    echo "One or more required variable is empty, please try running matcha provision again."
+    break
+  fi
+done
+
 
 echo "Setting up ZenML..."
 {
