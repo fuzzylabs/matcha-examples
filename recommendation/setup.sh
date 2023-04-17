@@ -69,17 +69,44 @@ echo "Setting up ZenML..."
     zenml init
     
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
-    zenml secret create az_secret --connection_string="$zenml_connection_string"
-    zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
-    zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
-    zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
-    zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
 
-    # Register the Seldon Core Model Deployer
-    zenml model-deployer register seldon_deployer --flavor=seldon \
-        --kubernetes_context=$k8s_context \
-        --kubernetes_namespace=$seldon_workload_namespace \
-        --base_url=http://$seldon_ingress_host \
+    # Check if az_secret already exists
+    if ! zenml secret list | grep -q "az_secret"; then
+        # If it doesn't exist, create it
+        zenml secret create az_secret --connection_string="$zenml_connection_string"
+    fi
 
-    zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
+    # Check if acr_registry already exists
+    if ! zenml container-registry list | grep -q "acr_registry"; then
+        zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
+    fi
+
+    # Check if mlflow_experiment_tracker already exists
+    if ! zenml experiment-tracker list | grep -q "mlflow_experiment_tracker"; then
+        zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
+    fi
+
+    # Check if az_store already exists
+    if ! zenml artifact-store list | grep -q "az_store"; then
+        zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
+    fi
+
+    # Check if k8s_orchestrator already exists
+    if ! zenml orchestrator list | grep -q "k8s_orchestrator"; then
+        zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
+    fi
+
+    # Check if seldon_deployer already exists
+    if ! zenml model-deployer list | grep -q "seldon_deployer"; then
+        zenml model-deployer register seldon_deployer --flavor=seldon \
+            --kubernetes_context=$k8s_context \
+            --kubernetes_namespace=$seldon_workload_namespace \
+            --base_url=http://$seldon_ingress_host \
+    fi
+
+    # Check if the stack is already registered
+    if zenml stack list | grep -q "recommendation_example_cloud_stack"; then
+        zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
+    fi
+
 } >> setup_out.log
