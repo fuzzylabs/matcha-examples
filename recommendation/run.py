@@ -1,4 +1,5 @@
 """Run the recommendation example pipeline."""
+import click
 from steps.load_data_step import load_data
 from steps.train_step import train
 from steps.evaluate_step import evaluate
@@ -40,14 +41,25 @@ def run_deployment_pipeline():
     )
     deploy_pipeline.run(config_path="pipelines/config_deploy_recommendation_pipeline.yaml")
     
-
-def main():
-    """Run all pipelines."""
-    logger.info("Running recommendation pipeline.")
-    run_recommendation_pipeline()
     
-    logger.info("Running deployment pipeline.")
-    run_deployment_pipeline()
+@click.command()
+@click.option("--train", "-t", is_flag=True, help="Run training pipeline")
+def main(train: bool):
+    """Run all pipelines.
+    
+    args:
+        train (bool): Flag for running the training pipeline.
+    """
+    if train:
+        logger.info("Running recommendation training pipeline.")
+        run_recommendation_pipeline()
+    
+    if not train:
+        logger.info("Running recommendation training pipeline.")
+        run_recommendation_pipeline()
+        
+        logger.info("Running deployment pipeline.")
+        run_deployment_pipeline()
 
 
 if __name__ == "__main__":

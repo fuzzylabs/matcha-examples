@@ -72,7 +72,6 @@ def test_preprocess_function(mock_hf_dataset: Dataset, get_params: dict):
                                             get_params.target_max_length)
 
     expected_features = ['input_ids', 'attention_mask', 'labels']
-
     expected_labels = [27, 183, 3, 9, 9251, 55, 1]
     expected_input_ids = [21603, 10, 27, 183, 3, 9, 1499, 55, 1]
 
@@ -86,12 +85,8 @@ def test_preprocess_function(mock_hf_dataset: Dataset, get_params: dict):
     assert all([len(v) == len(mock_hf_dataset) for _, v in tokenized_dataset.items()])
 
     # Check if input and labels are correct
-    assert tokenized_dataset['input_ids'][0][:len(expected_input_ids)] == expected_input_ids
-    assert tokenized_dataset['labels'][0][:len(expected_labels)] == expected_labels
-
-    # Check if padding adds 0 until max_length is reached
-    assert set(tokenized_dataset['input_ids'][0][len(expected_input_ids):]) == {0}
-    assert set(tokenized_dataset['labels'][0][len(expected_labels):]) == {0}
+    assert tokenized_dataset['input_ids'][0] == expected_input_ids
+    assert tokenized_dataset['labels'][0] == expected_labels
 
 
 def test_preprocess_dataset_step(mock_hf_dataset: Dataset, get_params: dict):

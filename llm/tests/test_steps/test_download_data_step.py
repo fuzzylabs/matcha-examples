@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import tempfile
 import os
 from unittest import mock
+from requests import HTTPError
 
 from steps.download_data_step import download_dataset
 
@@ -72,13 +73,13 @@ def test_download_data_step_invalid_url(get_params: dict):
     """
     dummy_dict = {'text': 'summary'}
     with mock.patch("requests.get") as mockresponse:
-        mockresponse.return_value.status_code = 404
-        mockresponse.return_value.json.return_value = dummy_dict
+        mock_req_instance = mockresponse.return_value
+        mock_req_instance.status_code = 404
+        mock_req_instance.url = "http://invalid_url"
+        mock_req_instance.json.return_value = dummy_dict
+        mock_req_instance.raise_for_status.side_effect = HTTPError()
 
         with pytest.raises(Exception) as exc_info:
             _ = download_dataset.entrypoint(get_params)
 
-    assert (
-        str(exc_info.value)
-        == "Error downloading dataset with response: 404"
-    )
+    assert (str(exc_info.value) == "HTTP Error: ")

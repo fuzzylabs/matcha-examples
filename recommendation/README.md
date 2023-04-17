@@ -14,12 +14,6 @@ Clone this repo:
 git clone git@github.com:fuzzylabs/matcha-examples.git
 ```
 
-Install matcha:
-
-```bash
-pip install matcha
-```
-
 Go to the recommendation example directory:
 
 ```bash
@@ -35,6 +29,24 @@ source venv/bin/activate
 
 > There is a requirement for the Python version being used to be 3.8+. We recommend making use of [pyenv](https://github.com/pyenv/pyenv) to manage your versions.
 
+Install matcha:
+
+```bash
+pip install matcha
+```
+
+⚠️ Provisioning ⚠️
+ 
+The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
+
+> You need to be in the `recommendations` directory before running this!
+
+```bash
+matcha provision
+```
+
+Once that's finished, crack on!
+
 Set up the environment:
 
 This will install the requirements for the example (see [requirements.txt](requirements.txt)) and setup [ZenML](https://docs.zenml.io/getting-started/introduction):
@@ -49,13 +61,55 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 ## `matcha` time!
 
-Use matcha to run the example 🍵:
+Use matcha to run the pipelines which will train and deploy a model 🍵:
+
+> This will both train the recommendation model and deploy it.
 
 ```bash
 matcha run
+```
+
+Use matcha to run only the training portion of the pipeline:
+
+```bash
+matcha run train
+```
+
+Use matcha to run just the deployment portion of the pipeline (note: you will need to run the command above for this to work):
+
+```bash
+matcha run deploy
 ```
 
 [Optional] Run the tests:
 ```bash
 python -m pytest tests
 ```
+
+## Query the deployed model
+
+✅ You've trained a model 
+
+✅ You've deployed it 
+
+❓ And now you want to get predictions. 
+
+
+We've created a handy inference script which you can use to send a `user_id` and a `movie_id` to the deployed model get a predicted rating:
+
+```bash
+python inference.py --user 100 --movie 100
+```
+
+And the output should be something similar to:
+
+```bash
+User 100 is predicted to give the movie (100) a rating of: 4.2 out of 5
+```
+
+> Alternatively, you can `curl` the endpoint with the following:
+> ```bash
+> curl -XPOST -H 'Content-Type: application/json' -d '{"data": {"ndarray": [{"iid": "302", "uid": "196"}]}}' <endpoint_url>
+> ```
+>
+> The output will be the raw predictions sent back by the model!
