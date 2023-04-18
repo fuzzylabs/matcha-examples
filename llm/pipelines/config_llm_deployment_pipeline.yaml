@@ -1,0 +1,4 @@
+settings:
+  docker:
+    dockerignore: .dockerignore
+steps:
