@@ -1,17 +1,17 @@
 #!/bin/bash
-# echo "Installing example requirements (see requirements.txt)..."
-# {
-#     pip install -r requirements.txt
+echo "Installing example requirements (see requirements.txt)..."
+{
+    pip install -r requirements.txt
     
-#     zenml integration install mlflow azure kubernetes seldon -y
-# } >> setup_out.log
+    zenml integration install mlflow azure kubernetes seldon -y
+} >> setup_out.log
 
-# if [[ ! -f .matcha/infrastructure/matcha.state ]]
-# then
-#     echo "Error: The file .matcha/infrastructure/matcha.state does not exist!"
-#     echo "Ensure that you have run 'matcha provision' in this directory and all cloud resources have been provisioned."
-#     exit 1
-# fi
+if [[ ! -f .matcha/infrastructure/matcha.state ]]
+then
+    echo "Error: The file .matcha/infrastructure/matcha.state does not exist!"
+    echo "Ensure that you have run 'matcha provision' in this directory and all cloud resources have been provisioned."
+    exit 1
+fi
 
 
 get_state_value() {
