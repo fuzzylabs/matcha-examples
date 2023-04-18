@@ -13,10 +13,20 @@ from datasets import Dataset
 
 
 class FinetuneParameters(BaseParameters):
+    """Fine-tuning step parameters."""
+    # Enable Transformers fp16 mixed precision
     fp16: bool
 
 
-def prepare_training_args(fp16: bool):
+def prepare_training_args(fp16: bool) -> Seq2SeqTrainingArguments:
+    """Prepare training arguments.
+
+    Args:
+        fp16 (bool): Enable Transformers fp16 mixed precision
+
+    Returns:
+        Seq2SeqTrainingArguments: training arguments
+    """
     training_args = Seq2SeqTrainingArguments(
         output_dir="model",
         learning_rate=2e-5,
@@ -38,6 +48,20 @@ def train(
         data: Dataset,
         training_args: Seq2SeqTrainingArguments
 ) -> Tuple[PreTrainedTokenizerBase, PreTrainedModel]:
+    """Perform sequence to sequence training.
+
+    Args:
+        tokenizer (PreTrainedTokenizerBase): Huggingface tokenizer to be used in fine-tuning.
+        model (PreTrainedModel): Huggingface pre-trained model to fine-tune
+        data (Dataset): dataset to fine-tune with
+        training_args (Seq2SeqTrainingArguments): training arguments
+
+    Returns:
+        Tuple[PreTrainedTokenizerBase, PreTrainedModel]: fine-tuned tokenizer and model
+
+    Raises:
+        Exception: when tokenizer or model is missing from the trainer
+    """
     data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model.name_or_path)
     trainer = Seq2SeqTrainer(
         model=model,
@@ -48,7 +72,7 @@ def train(
         data_collator=data_collator
     )
 
-    smth = trainer.train()
+    trainer.train()
 
     if trainer.tokenizer is None:
         raise Exception("Trainer's tokenizer is None")
@@ -65,6 +89,18 @@ def finetune_model(
         model: PreTrainedModel,
         data: Dataset
 ) -> Output(tokenizer=PreTrainedTokenizerBase, model=PreTrainedModel):
+    """A step to fine-tune a pre-trained model.
+
+    Args:
+        params (FinetuneParameters): Fine-tuning parameters
+        tokenizer (PreTrainedTokenizerBase): A pre-trained tokenizer
+        model (PreTrainedModel): A pre-trained model
+        data (Dataset): A dataset to fine-tune with
+
+    Returns:
+        PreTrainedTokenizerBase: a fine-tuned tokenizer
+        PreTrainedModel: a fine-tuned model
+    """
     training_args = prepare_training_args(params.fp16)
     tuned_tokenizer, tuned_model = train(tokenizer, model, data, training_args)
     return tuned_tokenizer, tuned_model

@@ -30,4 +30,5 @@ steps:
   finetune_model:
     enable_cache: False
     parameters:
+      # Enable Transformers fp16 mixed precision
       fp16: True
