@@ -15,7 +15,7 @@ class FetchModelParams(BaseParameters):
 
 @step
 def fetch_trained_model(params: FetchModelParams) -> Output(model_uri=str, decision=bool):
-    """
+    """Fetch path to trained model and decision to deploy LLM model.
 
     Args:
         params (FetchModelParams): Parameters for fetching trained model.

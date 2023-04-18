@@ -2,3 +2,10 @@ settings:
   docker:
     dockerignore: .dockerignore
 steps:
+  fetch_trained_model:
+    enable_cache: False
+    parameters:
+      # Path to the folder containing trained checkpoints
+      trained_model_path: "models"
+  deploy_model:
+    enable_cache: False
