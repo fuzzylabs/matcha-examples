@@ -9,6 +9,11 @@ steps:
       data_dir: "data/"
   convert_to_hg_dataset:
     enable_cache: False
+  get_huggingface_model:
+    enable_cache: False
+    parameters:
+      # Name of LLM model to finetune.
+      model_name: "google/flan-t5-small"
   preprocess_dataset:
     enable_cache: False
     parameters:
