@@ -1,12 +1,15 @@
 import os
 import json
 import requests
+import numpy as np
+import evaluate
 import pandas as pd
 from functools import partial
 from datasets import Dataset
 from transformers import AutoTokenizer, DataCollatorForSeq2Seq, AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
 DATASET_URL = "https://raw.githubusercontent.com/lauramanor/legal_summarization/master/all_v1.json"
+rouge = evaluate.load("rouge")
 
 
 def download_dataset(data_dir: str) -> None:
@@ -57,16 +60,27 @@ def preprocess_dataset(dataset: Dataset, test_size: float, model_name: str, pref
     return tokenized_data.train_test_split(test_size=test_size)
 
 
+def compute_metrics(eval_pred, tokenizer):
+    predictions, labels = eval_pred
+    decoded_preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+    result = rouge.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
+    prediction_lens = [np.count_nonzero(pred != tokenizer.pad_token_id) for pred in predictions]
+    result["gen_len"] = np.mean(prediction_lens)
+    return {k: round(v, 4) for k, v in result.items()}
+
+
 def prepare_training_args():
     training_args = Seq2SeqTrainingArguments(
         output_dir="models",
-        # evaluation_strategy="epoch",
+        evaluation_strategy="epoch",
         learning_rate=2e-5,
-        per_device_train_batch_size=4,
-        per_device_eval_batch_size=4,
-        weight_decay=0.01,
+        per_device_train_batch_size=2,
+        per_device_eval_batch_size=2,
+        weight_decay=1e-3,
         save_total_limit=1,
-        num_train_epochs=2,
+        num_train_epochs=10,
         predict_with_generate=True,
         fp16=True,
         push_to_hub=False,
@@ -85,7 +99,8 @@ def finetune_model(tokenized_data, model_name, training_args):
         train_dataset=tokenized_data["train"],
         eval_dataset=tokenized_data["test"],
         tokenizer=tokenizer,
-        data_collator=data_collator
+        data_collator=data_collator,
+        compute_metrics=partial(compute_metrics, tokenizer=tokenizer),
     )
 
     trainer.train()

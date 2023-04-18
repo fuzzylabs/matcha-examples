@@ -210,3 +210,7 @@ pip-selfcheck.json
 
 # Dataset folder
 data/
+
+mlruns
+
+models/

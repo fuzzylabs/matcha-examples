@@ -5,7 +5,16 @@ steps:
   fetch_trained_model:
     enable_cache: False
     parameters:
-      # Path to the folder containing trained checkpoints
-      trained_model_path: "models"
+      # Name of the pipeline to fetch from
+      pipeline_name: "llm_finetuning_pipeline"
+      # Pipeline version hardcoded here, zenml searches only the latest version by default
+      pipeline_version: 1
+      # step name
+      step_name: "finetune_model"
+  build_docker_image:
+    enable_cache: False
+    parameters:
+      # Path of the directory containing the files used for building the Docker image.
+      docker_directory: server/
   deploy_model:
     enable_cache: False
