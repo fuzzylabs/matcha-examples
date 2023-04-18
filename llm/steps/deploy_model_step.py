@@ -136,8 +136,8 @@ def deploy_recommendation(
     # TODO: download finetuned model
 
     artifacts_for_server = {
-        "model_uri": "",
-        "tokenizer_uri": ""
+        "model_uri": model_uri,
+        "tokenizer_uri": tokenizer_uri
     }
 
     model_deployer = SeldonModelDeployer.get_active_model_deployer()

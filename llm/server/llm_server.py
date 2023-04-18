@@ -20,8 +20,8 @@ class LLMServer(object):
         """Initialise model server.
 
         Args:
-            hf_dataset_uri: URI pointing to the huggingface dataset
-            faiss_index_uri: URI pointing to the FAISS index
+            model_uri: URI pointing to the fine-tuned LLM model
+            tokenizer_uri: URI pointing to tokenizer
             working_directory (Optional[str]): directory to download artifacts to, defaults to the directory of the script
         """
         super().__init__()
@@ -29,6 +29,7 @@ class LLMServer(object):
         if working_directory is None:
             working_directory = os.path.dirname(os.path.abspath(__file__))
 
+        self.trained_model_path = os.path.join(working_directory, model_uri)
         # TODO: Copy artifacts to working directory
 
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.trained_model_path)
