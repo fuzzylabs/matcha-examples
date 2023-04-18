@@ -7,7 +7,8 @@ def llm_finetuning_pipeline(
         download_dataset,
         convert_to_hg_dataset,
         get_huggingface_model,
-        preprocess_dataset
+        preprocess_dataset,
+        finetune_model,
 ):
     """Pipeline for llm fine-tuning on summarization dataset.
 
@@ -31,4 +32,5 @@ def llm_finetuning_pipeline(
     tokenized_data = preprocess_dataset(dataset, tokenizer)
 
     # Fine-tune
+    tuned_tokenizer, tuned_model = finetune_model(tokenizer, model, tokenized_data)
 
