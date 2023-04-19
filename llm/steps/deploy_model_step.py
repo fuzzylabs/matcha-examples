@@ -6,7 +6,6 @@ from zenml.integrations.seldon.services import SeldonDeploymentService
 from zenml.integrations.seldon.services import SeldonDeploymentConfig
 from zenml.integrations.seldon.seldon_client import SeldonDeploymentPredictorParameter
 from zenml.logger import get_logger
-from zenml.materializers import UnmaterializedArtifact
 from zenml.steps import BaseParameters, StepContext, step
 from zenml.environment import Environment
 from zenml.integrations.seldon.model_deployers import SeldonModelDeployer
@@ -118,8 +117,8 @@ def get_config(
 @step
 def deploy_recommendation(
     params: RecommendationDeploymentParameters,
-    model: UnmaterializedArtifact,
-    tokenizer: UnmaterializedArtifact,
+    model_uri: str,
+    tokenizer_uri: str,
     docker_image: str,
     context: StepContext,
 ) -> SeldonDeploymentService:
@@ -127,8 +126,8 @@ def deploy_recommendation(
 
     Args:
         params (RecommendationDeploymentParameters): deployment parameters
-        model (UnmaterializedArtifact): Fine-tuned LLM model
-        tokenizer (UnmaterializedArtifact): Tokenizer for LLM model
+        model_uri (str): Location of model artifact
+        tokenizer_uri (str): Location of tokenizer artifact
         docker_image (str): image tag to use for deployment
         context (StepContext): ZenML step context
 
@@ -137,11 +136,11 @@ def deploy_recommendation(
 
     """
     # Download artifacts : model and tokenizer
-    model_uri = os.path.join(model.uri, DEFAULT_PT_MODEL_DIR)
-    served_model_uri = copy_artifact(model_uri, DEFAULT_PT_MODEL_DIR, context)
+    model_path = os.path.join(model_uri, DEFAULT_PT_MODEL_DIR)
+    served_model_uri = copy_artifact(model_path, DEFAULT_PT_MODEL_DIR, context)
 
-    tokenizer_uri = os.path.join(tokenizer.uri, DEFAULT_TOKENIZER_DIR)
-    served_tokenizer_uri = copy_artifact(tokenizer_uri, DEFAULT_TOKENIZER_DIR, context)
+    tokenizer_path = os.path.join(tokenizer_uri, DEFAULT_TOKENIZER_DIR)
+    served_tokenizer_uri = copy_artifact(tokenizer_path, DEFAULT_TOKENIZER_DIR, context)
 
     artifacts_for_server = {
         "model_uri": served_model_uri,

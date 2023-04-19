@@ -6,8 +6,8 @@ import os
 import numpy as np
 
 from transformers import (
-    AutoConfig, 
-    PreTrainedModel, 
+    AutoConfig,
+    PreTrainedModel,
     AutoTokenizer,
     PreTrainedTokenizerBase
 )
