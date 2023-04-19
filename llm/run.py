@@ -1,7 +1,7 @@
 """Run the LLM finetuning pipeline."""
 from zenml.logger import get_logger
 
-from steps.finetune import finetune_model
+from steps.finetune_model import finetune_model
 from steps.get_hg_model import get_huggingface_model
 from steps.download_data_step import download_dataset
 from steps.convert_to_hg_dataset_step import convert_to_hg_dataset
