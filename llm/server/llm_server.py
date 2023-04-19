@@ -5,8 +5,12 @@ from typing import Optional, Any
 import os
 import numpy as np
 
-from transformers import AutoConfig, PreTrainedModel, AutoTokenizer
-from transformers.tokenization_utils_base import PreTrainedTokenizerBase
+from transformers import (
+    AutoConfig, 
+    PreTrainedModel, 
+    AutoTokenizer,
+    PreTrainedTokenizerBase
+)
 
 logger = logging.getLogger(__name__)
 DEFAULT_PT_MODEL_DIR = "hf_pt_model"
