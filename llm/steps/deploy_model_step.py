@@ -15,6 +15,8 @@ from zenml.steps import STEP_ENVIRONMENT_NAME, StepEnvironment
 from zenml.utils import io_utils
 
 logger = get_logger(__name__)
+DEFAULT_PT_MODEL_DIR = "hf_pt_model"
+DEFAULT_TOKENIZER_DIR = "hf_tokenizer"
 
 
 class RecommendationDeploymentParameters(BaseParameters):
@@ -105,18 +107,19 @@ def get_config(
                 {
                     "image": docker_image,
                     "imagePullPolicy": "Always",
-                    "name": "classifier",
+                    "name": "summarizer",
                     "resources": container_resources,
                 }
             ]
         },
     )
 
+
 @step
 def deploy_recommendation(
     params: RecommendationDeploymentParameters,
-    model_uri: str,
-    tokenizer_uri: str,
+    model: UnmaterializedArtifact,
+    tokenizer: UnmaterializedArtifact,
     docker_image: str,
     context: StepContext,
 ) -> SeldonDeploymentService:
@@ -124,8 +127,8 @@ def deploy_recommendation(
 
     Args:
         params (RecommendationDeploymentParameters): deployment parameters
-        model_uri (UnmaterializedArtifact): path to fine-tuned model
-        tokenizer_uri (str): path to tokenizer
+        model (UnmaterializedArtifact): Fine-tuned LLM model
+        tokenizer (UnmaterializedArtifact): Tokenizer for LLM model
         docker_image (str): image tag to use for deployment
         context (StepContext): ZenML step context
 
@@ -133,11 +136,16 @@ def deploy_recommendation(
         SeldonDeploymentService: Seldon Core deployment service for the deployed model
 
     """
-    # TODO: download finetuned model
+    # Download artifacts : model and tokenizer
+    model_uri = os.path.join(model.uri, DEFAULT_PT_MODEL_DIR)
+    served_model_uri = copy_artifact(model_uri, DEFAULT_PT_MODEL_DIR, context)
+
+    tokenizer_uri = os.path.join(tokenizer.uri, DEFAULT_TOKENIZER_DIR)
+    served_tokenizer_uri = copy_artifact(tokenizer_uri, DEFAULT_TOKENIZER_DIR, context)
 
     artifacts_for_server = {
-        "model_uri": model_uri,
-        "tokenizer_uri": tokenizer_uri
+        "model_uri": served_model_uri,
+        "tokenizer_uri": served_tokenizer_uri
     }
 
     model_deployer = SeldonModelDeployer.get_active_model_deployer()
@@ -161,9 +169,7 @@ def deploy_recommendation(
     # deploy the service
     service = cast(
         SeldonDeploymentService,
-        model_deployer.deploy_model(
-            service_config, replace=True, timeout=params.timeout
-        ),
+        model_deployer.deploy_model(service_config, replace=True, timeout=params.timeout),
     )
 
     logger.info(

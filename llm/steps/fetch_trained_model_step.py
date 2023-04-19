@@ -3,6 +3,7 @@ from typing import Optional
 
 from zenml.post_execution import PipelineView, get_pipeline
 from zenml.post_execution.artifact import ArtifactView
+from zenml.models.artifact_models import ArtifactResponseModel
 from zenml.steps import step, BaseParameters, Output
 from zenml.logger import get_logger
 
@@ -63,15 +64,15 @@ def get_output_from_step(pipeline: PipelineView, step_name: str) -> ArtifactView
 @step
 def fetch_model(
     params: FetchModelParameters,
-) -> Output(model_uri=str, tokenizer_uri=str, decision=bool):
+) -> Output(model=ArtifactResponseModel, tokenizer=ArtifactResponseModel, decision=bool):
     """Step to fetch model artifacts from last run of nft_embedding pipeline.
 
     Args:
         params (FetchModelParameters): Parameters for fetch model step.
 
     Returns:
-        str: Path to location where trained model is stored.
-        str: Path to location where trained model is stored.
+        ArtifactResponseModel: Artifact data for model.
+        ArtifactResponseModel: Artifact data for tokenizer.
         bool: Decision to deploy the model.
 
     Raises:
@@ -91,6 +92,5 @@ def fetch_model(
     # Fetch the output for step from the pipeline
     outputs = get_output_from_step(pipeline, params.step_name)
 
-    # TODO: get uri from outputs
-
-    return model_uri, tokenizer_uri, True
+    model, tokenizer = outputs["model"], outputs["tokenizer"]
+    return model, tokenizer, True
