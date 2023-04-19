@@ -13,9 +13,6 @@ logger = get_logger(__name__)
 class PreprocessParameters(BaseParameters):
     """Parameters for preprocessing the Huggingface dataset."""
 
-    # Name of LLM model to finetune.
-    model_name: str = "google/flan-t5-base"
-
     # Prefix to be added to the input (required for T5 LLM family)
     prefix: str = "summarize: "
 

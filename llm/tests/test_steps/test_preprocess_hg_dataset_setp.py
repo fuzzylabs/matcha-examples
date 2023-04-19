@@ -3,7 +3,7 @@ import pytest
 from types import SimpleNamespace
 
 from datasets import Dataset, DatasetDict
-from transformers import BatchEncoding
+from transformers import AutoTokenizer, BatchEncoding, PreTrainedTokenizerBase
 
 from steps.convert_to_hg_dataset_step import convert_to_hg_dataset
 from steps.preprocess_hg_dataset_step import preprocess_dataset, preprocess_function
@@ -17,12 +17,16 @@ def get_params() -> dict:
         dict: Parameters for step.
     """
     params = SimpleNamespace()
-    params.model_name = "google/flan-t5-base"
     params.prefix = "summarize: "
     params.input_max_length = 128
     params.target_max_length = 128
     params.test_size = 0.1
     return params
+
+
+@pytest.fixture
+def test_tokenizer() -> PreTrainedTokenizerBase:
+    return AutoTokenizer.from_pretrained("google/flan-t5-base")
 
 
 @pytest.fixture
@@ -58,15 +62,16 @@ def mock_hf_dataset(mock_data: dict) -> Dataset:
     return hg_dataset
 
 
-def test_preprocess_function(mock_hf_dataset: Dataset, get_params: dict):
+def test_preprocess_function(mock_hf_dataset: Dataset, get_params: dict, test_tokenizer: PreTrainedTokenizerBase):
     """Test the preprocess_function function.
 
     Args:
         mock_hf_dataset (Dataset): Fixture to mock huggingface dataset.
         get_params (dict): Parameters required for step.
+        test_tokenizer (PreTrainedTokenizerBase): Test tokenizer to use.
     """
     tokenized_dataset = preprocess_function(mock_hf_dataset,
-                                            get_params.model_name,
+                                            test_tokenizer,
                                             get_params.prefix,
                                             get_params.input_max_length,
                                             get_params.target_max_length)
@@ -89,15 +94,16 @@ def test_preprocess_function(mock_hf_dataset: Dataset, get_params: dict):
     assert tokenized_dataset['labels'][0] == expected_labels
 
 
-def test_preprocess_dataset_step(mock_hf_dataset: Dataset, get_params: dict):
+def test_preprocess_dataset_step(mock_hf_dataset: Dataset, get_params: dict, test_tokenizer: PreTrainedTokenizerBase):
     """Test the preprocess_dataset step.
 
     Args:
         mock_hf_dataset (Dataset): Fixture to mock huggingface dataset.
         get_params (dict): Parameters required for step.
+        test_tokenizer (PreTrainedTokenizerBase): Test tokenizer to use.
     """
 
-    tokenized_dataset = preprocess_dataset.entrypoint(mock_hf_dataset, get_params)
+    tokenized_dataset = preprocess_dataset.entrypoint(mock_hf_dataset, test_tokenizer, get_params)
     expected_features = ['text', 'summary', 'input_ids', 'attention_mask', 'labels']
 
     # Check if the output is a huggingface `DatasetDict` object
