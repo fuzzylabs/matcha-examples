@@ -83,11 +83,9 @@ def test_finetune_model(
         test_dataset (Dataset): test empty dataset
         expected_training_args (dict): dictionary of expected training arguments
     """
-    with (
-        mock.patch("steps.finetune_model.Seq2SeqTrainer") as mock_trainer,
-        mock.patch("steps.finetune_model.Seq2SeqTrainingArguments") as mock_trainer_args,
-        mock.patch("steps.finetune_model.DataCollatorForSeq2Seq") as mock_data_collator,
-    ):
+    with mock.patch("steps.finetune_model.Seq2SeqTrainer") as mock_trainer, \
+            mock.patch("steps.finetune_model.Seq2SeqTrainingArguments") as mock_trainer_args, \
+            mock.patch("steps.finetune_model.DataCollatorForSeq2Seq") as mock_data_collator:
         mock_trainer_instance = mock_trainer.return_value
         mock_trainer_instance.tokenizer = test_tokenizer
         mock_trainer_instance.model = test_model
