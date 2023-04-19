@@ -75,8 +75,8 @@ def _output(predictions: dict):
     
 
 @click.command()
-@click.option('--user', default=1, help='the user id.')
-@click.option('--movie', default=1, help='the movie id.')
+@click.option('--user', default=1, help='the user id.', type=click.IntRange(1, 943))
+@click.option('--movie', default=1, help='the movie id.', type=click.IntRange(1, 1682))
 def main(user: int, movie: int):
     """The main runner function.
 
