@@ -1,21 +1,27 @@
 """Test finetune_model step."""
 from unittest import mock
 
-from steps.finetune_model import finetune_model, FinetuneParameters
+from steps.finetune_model import finetune_model, TuningParameters
 import pytest
 from datasets import Dataset
 from transformers import PretrainedConfig, PreTrainedTokenizerBase, PreTrainedModel
 
 
 @pytest.fixture
-def params() -> FinetuneParameters:
+def params() -> TuningParameters:
     """Mock parameters required for step.
 
     Returns:
         GetHuggingfaceModelParameters: Parameters for step.
     """
-    return FinetuneParameters(
-        fp16=True
+    return TuningParameters(
+        learning_rate=2e-5,
+        weight_decay=0.01,
+        use_cuda=False,
+        per_device_train_batch_size=2,
+        per_device_eval_batch_size=2,
+        epochs=5,
+        load_best_model_at_end=True
     )
 
 @pytest.fixture
@@ -56,19 +62,22 @@ def expected_training_args() -> dict:
     return {
         "output_dir": "model",
         "learning_rate": 2e-5,
-        "per_device_train_batch_size": 4,
-        "per_device_eval_batch_size": 4,
+        "evaluation_strategy": 'epoch',
+        "per_device_train_batch_size": 2,
+        "per_device_eval_batch_size": 2,
         "weight_decay": 0.01,
         "save_total_limit": 1,
-        "num_train_epochs": 2,
+        "save_strategy": 'epoch',
+        "num_train_epochs": 5,
         "predict_with_generate": True,
-        "fp16": True,
-        "push_to_hub": False,
+        "no_cuda": True,
+        "fp16": False,
+        "load_best_model_at_end": True,
     }
 
 
 def test_finetune_model(
-    params: FinetuneParameters,
+    params: TuningParameters,
     test_tokenizer: PreTrainedTokenizerBase,
     test_model: PreTrainedModel,
     test_dataset: Dataset,
@@ -77,7 +86,7 @@ def test_finetune_model(
     """Test finetune_model step fine-tunes a provided model.
 
     Args:
-        params (FinetuneParameters): step parameters
+        params (TuningParameters): step parameters
         test_tokenizer (PreTrainedTokenizerBase): test tokenizer
         test_model (PreTrainedModel): test model
         test_dataset (Dataset): test empty dataset
