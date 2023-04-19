@@ -3,12 +3,12 @@ from zenml.pipelines import pipeline
 
 
 @pipeline
-def llm_finetuning_pipeline(
+def llm_pipeline(
         download_dataset,
         convert_to_hg_dataset,
         get_huggingface_model,
         preprocess_dataset,
-        finetune_model,
+        tune_model,
 ):
     """Pipeline for llm fine-tuning on summarization dataset.
 
@@ -18,7 +18,7 @@ def llm_finetuning_pipeline(
                             huggingface dataset format.
         get_huggingface_model: A step to get pre-trained model from huggingface.
         preprocess_dataset: A step to preprocess, tokenize and split the summarization dataset.
-        finetune_model: A step to fine-tune a huggingface pre-trained model.
+        tune_model: A step to fine-tune a huggingface pre-trained model.
     """
     # Download the summarization dataset
     data = download_dataset()
@@ -33,5 +33,5 @@ def llm_finetuning_pipeline(
     tokenized_data = preprocess_dataset(dataset, tokenizer)
 
     # Fine-tune
-    tuned_tokenizer, tuned_model = finetune_model(tokenizer, model, tokenized_data)
+    tuned_tokenizer, tuned_model = tune_model(tokenizer, model, tokenized_data)
 

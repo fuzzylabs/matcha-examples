@@ -27,7 +27,7 @@ steps:
       target_max_length: 512
       # Split ratio for train/test
       test_size: 0.2
-  finetune_model:
+  tune_model:
     enable_cache: False
     parameters:
       # Learning rate

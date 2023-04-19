@@ -210,3 +210,6 @@ pip-selfcheck.json
 data/
 
 .idea/
+
+model/
+mlruns/
