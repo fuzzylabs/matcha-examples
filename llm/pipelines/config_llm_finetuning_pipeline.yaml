@@ -1,0 +1,24 @@
+settings:
+  docker:
+    dockerignore: .dockerignore
+steps:
+  download_dataset:
+    enable_cache: False
+    parameters:
+      # Path to directory where dataset will be downloaded
+      data_dir: "data/"
+  convert_to_hg_dataset:
+    enable_cache: False
+  preprocess_dataset:
+    enable_cache: False
+    parameters:
+      # Name of LLM model to finetune.
+      model_name: "google/flan-t5-small"
+      # Prefix to be added to the input (required for T5 LLM family)
+      prefix: "summarize: "
+      # Max length of the input text
+      input_max_length: 4096
+      # Max length of the target summary
+      target_max_length: 512
+      # Split ratio for train/test
+      test_size: 0.2
