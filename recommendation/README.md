@@ -59,6 +59,22 @@ This will install the requirements for the example (see [requirements.txt](requi
 >
 > On completion, this will open a browser window for the ZenML server but you can ignore this for the time being (if you want to explore, then the username is `default` and there's no password - see the [ZenML documentation](https://docs.zenml.io/getting-started/introduction) for more information).
 
+
+## Running the example
+Once `setup.sh` is completed, to run the training pipeline:
+```bash
+python run.py --train
+```
+When training has finished, we can run deploy our trained model by running the deployment pipeline:
+```bash
+python run.py --deploy
+```
+
+We can also run both training and deploy in one command:
+```bash
+python run.py --train --deploy
+```
+
 [Optional] Run the tests:
 ```bash
 python -m pytest tests

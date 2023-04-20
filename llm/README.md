@@ -55,6 +55,12 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
+## Running the example
+Once `setup.sh` is completed, to run the llm pipeline:
+```bash
+python run.py
+```
+
 [Optional] Run the tests:
 
 ```bash
