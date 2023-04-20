@@ -4,8 +4,6 @@
 
 .zen/
 
-.matcha
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -210,3 +208,8 @@ pip-selfcheck.json
 
 # Dataset folder
 data/
+
+.idea/
+
+model/
+mlruns/
