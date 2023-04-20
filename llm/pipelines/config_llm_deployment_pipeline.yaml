@@ -6,11 +6,11 @@ steps:
     enable_cache: False
     parameters:
       # Name of the pipeline to fetch from
-      pipeline_name: "llm_finetuning_pipeline"
+      pipeline_name: "llm_pipeline"
       # Pipeline version hardcoded here, zenml searches only the latest version by default
       pipeline_version: 1
       # step name
-      step_name: "finetune_model"
+      step_name: "tune_model"
   build_docker_image:
     enable_cache: False
     parameters:
