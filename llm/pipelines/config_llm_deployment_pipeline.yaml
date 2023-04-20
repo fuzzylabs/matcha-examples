@@ -15,6 +15,6 @@ steps:
     enable_cache: False
     parameters:
       # Path of the directory containing the files used for building the Docker image.
-      docker_directory: server/
+      docker_directory: "server/"
   deploy_model:
     enable_cache: False

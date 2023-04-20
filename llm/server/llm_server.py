@@ -4,6 +4,7 @@ import importlib
 from typing import Optional, Any
 import os
 import numpy as np
+from zenml.utils import io_utils
 
 from transformers import (
     AutoConfig,
