@@ -11,3 +11,5 @@ __pycache__/
 
 # Ignore copying data folder when building docker image
 data
+
+model

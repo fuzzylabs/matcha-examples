@@ -18,7 +18,7 @@ DEFAULT_PT_MODEL_DIR = "hf_pt_model"
 DEFAULT_TOKENIZER_DIR = "hf_tokenizer"
 
 
-class RecommendationDeploymentParameters(BaseParameters):
+class LLMDeploymentParameters(BaseParameters):
     """Model Deployment Parameters."""
 
     # Model display name
@@ -115,8 +115,8 @@ def get_config(
 
 
 @step
-def deploy_recommendation(
-    params: RecommendationDeploymentParameters,
+def deploy_llm_model(
+    params: LLMDeploymentParameters,
     model_uri: str,
     tokenizer_uri: str,
     docker_image: str,

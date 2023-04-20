@@ -16,5 +16,5 @@ steps:
     parameters:
       # Path of the directory containing the files used for building the Docker image.
       docker_directory: "server/"
-  deploy_model:
+  deploy_llm_model:
     enable_cache: False
