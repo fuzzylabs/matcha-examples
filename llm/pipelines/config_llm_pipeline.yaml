@@ -9,6 +9,11 @@ steps:
       data_dir: "data/"
   convert_to_hg_dataset:
     enable_cache: False
+  get_huggingface_model:
+    enable_cache: False
+    parameters:
+      # Name of LLM model to finetune.
+      model_name: "google/flan-t5-small"
   preprocess_dataset:
     enable_cache: False
     parameters:
@@ -22,3 +27,20 @@ steps:
       target_max_length: 512
       # Split ratio for train/test
       test_size: 0.2
+  tune_model:
+    enable_cache: False
+    parameters:
+      # Learning rate
+      learning_rate: 2e-5
+      # Weight decay
+      weight_decay: 0.01
+      # Use CUDA for training
+      use_cuda: True
+      # Batch size per device for training
+      per_device_train_batch_size: 2
+      # Batch size per device for evaluation
+      per_device_eval_batch_size: 2
+      # Number of epochs to run tuning for
+      epochs: 5
+      # Load the best checkpoint at the end flag
+      load_best_model_at_end: True
