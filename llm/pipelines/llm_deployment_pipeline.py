@@ -11,6 +11,7 @@ def llm_deployment_pipeline(fetch_trained_model, build_docker_image, deploy_llm_
         build_docker_image: This step build a custom Docker image for deployment
         deploy_llm_model: A step to deploy model using Seldon.
     """
+    build_docker_image.after(fetch_trained_model)
 
     # Fetch the trained model path, tokenizer path and decision
     model_uri, tokenizer_uri, decision = fetch_trained_model()

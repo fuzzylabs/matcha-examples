@@ -18,3 +18,12 @@ steps:
       docker_directory: "server/"
   deploy_llm_model:
     enable_cache: False
+    parameters:
+      model_name: "llm-model"
+      timeout: 300
+      engineResources:
+        requests:
+          cpu: 500m
+      containerResources:
+        requests:
+          cpu: 500m
