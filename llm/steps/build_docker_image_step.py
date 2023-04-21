@@ -26,7 +26,7 @@ def build_docker_image(params: DockerImageParameters) -> str:
         str: resulting Docker image tag
     """
     client = docker.DockerClient()
-    tag = registry.name
+    tag = f"{registry.config.uri}/llm-summarization"
     logger.info(f"Building docker image {tag} in {params.docker_directory}")
 
     # To push image to private container registry, we need to tag it with the registry name first

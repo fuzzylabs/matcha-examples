@@ -106,7 +106,7 @@ def get_config(
                 {
                     "image": docker_image,
                     "imagePullPolicy": "Always",
-                    "name": "summarizer",
+                    "name": "classifier",
                     "resources": container_resources,
                 }
             ]
