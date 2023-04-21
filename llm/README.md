@@ -55,12 +55,10 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
-## `matcha` time
-
-Use matcha to run the example 🍵:
-
+## Running the example
+Once setup.sh has completed, do the following to run the LLM pipeline (note: this will run both fine tuning and deployment):
 ```bash
-matcha run
+python run.py
 ```
 
 [Optional] Run the tests:

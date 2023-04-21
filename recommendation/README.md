@@ -59,26 +59,20 @@ This will install the requirements for the example (see [requirements.txt](requi
 >
 > On completion, this will open a browser window for the ZenML server but you can ignore this for the time being (if you want to explore, then the username is `default` and there's no password - see the [ZenML documentation](https://docs.zenml.io/getting-started/introduction) for more information).
 
-## `matcha` time!
 
-Use matcha to run the pipelines which will train and deploy a model 🍵:
-
-> This will both train the recommendation model and deploy it.
-
+## Running the example
+Once setup.sh has completed, do the following to run the training pipeline:
 ```bash
-matcha run
+python run.py --train
+```
+Once training has finished, we can deploy our trained model by doing the following:
+```bash
+python run.py --deploy
 ```
 
-Use matcha to run only the training portion of the pipeline:
-
+We can also run both training and deployment with one command:
 ```bash
-matcha run train
-```
-
-Use matcha to run just the deployment portion of the pipeline (note: you will need to run the command above for this to work):
-
-```bash
-matcha run deploy
+python run.py --train --deploy
 ```
 
 [Optional] Run the tests:

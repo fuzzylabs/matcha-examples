@@ -24,17 +24,17 @@ get_state_value() {
     echo $value
 }
 
-mlflow_tracking_url=$(get_state_value mlflow-tracking-url)
-zenml_storage_path=$(get_state_value zenml-storage-path)
-zenml_connection_string=$(get_state_value zenml-connection-string)
-k8s_context=$(get_state_value k8s-context)
-acr_registry_uri=$(get_state_value azure-container-registry)
-acr_registry_name=$(get_state_value azure-registry-name)
-zenserver_url=$(get_state_value zen-server-url)
-zenserver_username=$(get_state_value zen-server-username)
-zenserver_password=$(get_state_value zen-server-password)
-seldon_workload_namespace=$(get_state_value seldon-workloads-namespace)
-seldon_ingress_host=$(get_state_value seldon-base-url)
+mlflow_tracking_url=$(get_state_value mlflow_tracking_url)
+zenml_storage_path=$(get_state_value zenml_storage_path)
+zenml_connection_string=$(get_state_value zenml_connection_string)
+k8s_context=$(get_state_value k8s_context)
+acr_registry_uri=$(get_state_value azure_container_registry)
+acr_registry_name=$(get_state_value azure_registry_name)
+zenserver_url=$(get_state_value zen_server_url)
+zenserver_username=$(get_state_value zen_server_username)
+zenserver_password=$(get_state_value zen_server_password)
+seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
+seldon_ingress_host=$(get_state_value seldon_base_url)
 
 
 echo "Setting up ZenML..."
