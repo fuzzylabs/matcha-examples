@@ -139,7 +139,7 @@ class LLMServer(object):
         """
         print(X)
         try:
-            input_id = self.preprocess_input(X["text"])
+            input_id = self.preprocess_input(X)
             outputs = self.model.generate(input_id,
                                           max_length=300,
                                           min_length=30,

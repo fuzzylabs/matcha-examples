@@ -136,6 +136,7 @@ def deploy_llm_model(
 
     """
     # Download artifacts : model and tokenizer
+    logger.info("Copying artifacts")
     model_path = os.path.join(model_uri, DEFAULT_PT_MODEL_DIR)
     served_model_uri = copy_artifact(model_path, DEFAULT_PT_MODEL_DIR, context)
 

@@ -34,8 +34,9 @@ zenserver_password=$(get_state_value zen_server_password)
 seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
 seldon_ingress_host=$(get_state_value seldon_base_url)
 
+zenml_storage_container="${zenml_storage_path##*/}"
 echo "AZURE_STORAGE_CONNECTION_STRING=\"$zenml_connection_string\"" > "./server/.env"
-echo "AZURE_STORAGE_CONTAINER_NAME=\"$zenml_storage_path\"" >> "./server/.env"
+echo "AZURE_STORAGE_CONTAINER_NAME=\"$zenml_storage_container\"" >> "./server/.env"
 
 
 echo "Setting up ZenML..."
