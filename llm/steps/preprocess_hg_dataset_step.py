@@ -4,7 +4,7 @@ from functools import partial
 from zenml.logger import get_logger
 from zenml.steps import step, BaseParameters
 from datasets import Dataset, DatasetDict
-from transformers import AutoTokenizer, BatchEncoding
+from transformers import BatchEncoding
 from transformers import PreTrainedTokenizerBase
 
 logger = get_logger(__name__)

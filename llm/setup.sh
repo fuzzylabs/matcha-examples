@@ -23,17 +23,16 @@ get_state_value() {
     echo $value
 }
 
-mlflow_tracking_url=$(get_state_value mlflow-tracking-url)
-zenml_storage_path=$(get_state_value zenml-storage-path)
-zenml_connection_string=$(get_state_value zenml-connection-string)
-k8s_context=$(get_state_value k8s-context)
-acr_registry_uri=$(get_state_value azure-container-registry)
-acr_registry_name=$(get_state_value azure-registry-name)
-zenserver_url=$(get_state_value zen-server-url)
-zenserver_username=$(get_state_value zen-server-username)
-zenserver_password=$(get_state_value zen-server-password)
-seldon_workload_namespace=$(get_state_value seldon-workloads-namespace)
-seldon_ingress_host=$(get_state_value seldon-base-url)
+zenml_storage_path=$(get_state_value zenml_storage_path)
+zenml_connection_string=$(get_state_value zenml_connection_string)
+k8s_context=$(get_state_value k8s_context)
+acr_registry_uri=$(get_state_value azure_container_registry)
+acr_registry_name=$(get_state_value azure_registry_name)
+zenserver_url=$(get_state_value zen_server_url)
+zenserver_username=$(get_state_value zen_server_username)
+zenserver_password=$(get_state_value zen_server_password)
+seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
+seldon_ingress_host=$(get_state_value seldon_base_url)
 
 
 echo "Setting up ZenML..."
@@ -42,9 +41,9 @@ echo "Setting up ZenML..."
     az acr login --name="$acr_registry_name"
 
     zenml init
-    
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
     zenml secret create az_secret --connection_string="$zenml_connection_string"
+    zenml image-builder register docker_builder --flavor=local
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml model-deployer register seldon_deployer --flavor=seldon \
@@ -52,5 +51,5 @@ echo "Setting up ZenML..."
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
-    zenml stack register llm_example_cloud_stack -c acr_registry -a az_store -o default--model_deployer=seldon_deployer --set
+    zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o default --model_deployer=seldon_deployer --set
 } >> setup_out.log
