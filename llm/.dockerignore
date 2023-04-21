@@ -13,3 +13,5 @@ __pycache__/
 data
 
 model
+
+mlruns
