@@ -61,16 +61,16 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 
 ## Running the example
-Once `setup.sh` is completed, to run the training pipeline:
+Once setup.sh has completed, do the following to run the training pipeline:
 ```bash
 python run.py --train
 ```
-When training has finished, we can run deploy our trained model by running the deployment pipeline:
+Once training has finished, we can deploy our trained model by doing the following:
 ```bash
 python run.py --deploy
 ```
 
-We can also run both training and deploy in one command:
+We can also run both training and deployment with one command:
 ```bash
 python run.py --train --deploy
 ```
