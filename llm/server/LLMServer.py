@@ -137,9 +137,10 @@ class LLMServer(object):
 
         Returns:.
         """
-        print(X)
+        logging.info("input: {}".format(X))
+
         try:
-            input_id = self.preprocess_input(X)
+            input_id = self.preprocess_input(str(X))
             outputs = self.model.generate(input_id,
                                           max_length=300,
                                           min_length=30,
