@@ -8,6 +8,8 @@ If you're wondering what on earth `matcha` is (besides the drink) then check out
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
 
+Before you start, this example workflow requires the Azure CLI to be installed. See [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for how to do that.
+
 Clone this repo:
 
 ```bash
@@ -18,6 +20,12 @@ Go to the recommendation example directory:
 
 ```bash
 cd recommendation
+```
+
+Log into Azure via your terminal:
+
+```bash
+az login
 ```
 
 Create a virtual environment:
@@ -107,3 +115,13 @@ User 100 is predicted to give the movie (100) a rating of: 4.2 out of 5
 > ```
 >
 > The output will be the raw predictions sent back by the model!
+
+## Deprovision resources
+
+Even though we've chosen a sensible default configuration for you, leaving the resources you've provisioned in this example running on Azure is going to run up a bill.
+
+To deprovision the resources, run the following command:
+
+```bash
+matcha destroy
+```
