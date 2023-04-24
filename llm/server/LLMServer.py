@@ -74,7 +74,8 @@ class LLMServer(object):
         """Download a folder from Azure Storage Container
 
         Args:
-            curr_uri (str): Azure container uri corresponding to blob e.g. az://container/my-blob/
+            curr_uri (str): Azure container uri corresponding to blob
+                            e.g. az://container/my-blob/
             folder_path (str): Path to folder to download all the files
         """
         container_client = blob_service_client.get_container_client(container_name)
@@ -126,6 +127,7 @@ class LLMServer(object):
         """
         # Add prefix
         text = "summarize: " + input_text
+        logging.info(f"Preprocessed text = {text}")
         input_id = self.tokenizer(text, return_tensors="pt").input_ids
         return input_id
 
