@@ -1,14 +1,18 @@
-# A movie recommendation example using `matcha`
+# 🎥🎞🍿 A movie recommendation example using `matcha` 
 
 This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵. 
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
-## Getting Started
+## 🚦 Getting Started
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
 
+### 🧬 Cloning 
+
 Before you start, this example workflow requires the Azure CLI to be installed. See [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for how to do that.
+
+You will also need to ensure you have installed [Docker](https://docs.docker.com/get-docker/) and that the Docker daemon is running on your machine. 
 
 Clone this repo:
 
@@ -43,7 +47,7 @@ Install matcha:
 pip install matcha
 ```
 
-⚠️ Provisioning ⚠️
+### ⚠️ Provisioning
  
 The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
 
@@ -64,11 +68,8 @@ This will install the requirements for the example (see [requirements.txt](requi
 ```
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
->
-> On completion, this will open a browser window for the ZenML server but you can ignore this for the time being (if you want to explore, then the username is `default` and there's no password - see the [ZenML documentation](https://docs.zenml.io/getting-started/introduction) for more information).
 
-
-## Running the example
+## ▶️ Running the example 
 Once setup.sh has completed, do the following to run the training pipeline:
 ```bash
 python run.py --train
@@ -88,7 +89,7 @@ python run.py --train --deploy
 python -m pytest tests
 ```
 
-## Query the deployed model
+## 🙋‍♀ Query the deployed model
 
 ✅ You've trained a model 
 
