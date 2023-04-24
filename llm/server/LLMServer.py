@@ -57,6 +57,7 @@ class LLMServer(object):
 
         self.model = self.load_model(os.path.join(model_uri, DEFAULT_PT_MODEL_DIR))
         self.tokenizer = self.load_tokenizer(os.path.join(tokenizer_uri, DEFAULT_TOKENIZER_DIR))
+        logging.info("Loaded model and tokenizer")
 
     def download_file(self, blob_client: ContainerClient, destination_file: str):
         """Download a file from Azure Storage Container.
@@ -89,7 +90,7 @@ class LLMServer(object):
         """Load LLM model.
 
         Args:
-            model_uri: Path where model is stored.
+            model_uri (str): Path where model is stored.
 
         Returns:
             PreTrainedModel: Loaded LLM model
@@ -121,8 +122,11 @@ class LLMServer(object):
             input_text (str): input text
 
         Returns:
+            np.ndarray: Tokenized text input
         """
-        input_id = self.tokenizer(input_text, return_tensors="pt").input_ids
+        # Add prefix
+        text = "summarize: " + input_text
+        input_id = self.tokenizer(text, return_tensors="pt").input_ids
         return input_id
 
     def predict(self, X: np.ndarray, feature_names: Optional[np.ndarray], **kwargs: Any):
@@ -141,6 +145,7 @@ class LLMServer(object):
 
         try:
             input_id = self.preprocess_input(str(X))
+            logging.info(f"Input ids: {input_id}")
             outputs = self.model.generate(input_id,
                                           max_length=300,
                                           min_length=30,
@@ -148,6 +153,7 @@ class LLMServer(object):
                                           num_beams=4,
                                           no_repeat_ngram_size=3,
                                           early_stopping=True)
+            logging.info(f"Outputs ids: {outputs}")
             return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         except Exception as e:
             logging.exception("Exception during predict", e)
