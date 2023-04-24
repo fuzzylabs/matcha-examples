@@ -50,6 +50,7 @@ echo "Setting up ZenML..."
     zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
+    zenml image-builder register docker_builder --flavor=local
 
     # Register the Seldon Core Model Deployer
     zenml model-deployer register seldon_deployer --flavor=seldon \
@@ -57,5 +58,5 @@ echo "Setting up ZenML..."
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
-    zenml stack register recommendation_example_cloud_stack -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
+    zenml stack register recommendation_example_cloud_stack -i docker_builder -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
 } >> setup_out.log
