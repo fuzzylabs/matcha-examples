@@ -7,7 +7,7 @@ RUN pip install -r requirements.txt
 
 COPY .env .env
 
-# Copy recommendation server source code
+# Copy llm server source code
 COPY . .
 
 # Port for GRPC
