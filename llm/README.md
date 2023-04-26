@@ -16,10 +16,10 @@ Clone this repo:
 git clone git@github.com:fuzzylabs/matcha-examples.git
 ```
 
-Go to the recommendation example directory:
+Go to the llm example directory:
 
 ```bash
-cd llm
+cd matcha-examples/llm
 ```
 
 Create a virtual environment:
