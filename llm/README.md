@@ -19,7 +19,7 @@ git clone git@github.com:fuzzylabs/matcha-examples.git
 Go to the recommendation example directory:
 
 ```bash
-cd llm
+cd matcha-examples/llm
 ```
 
 Create a virtual environment:
