@@ -1,12 +1,14 @@
-# LLM Summarization example using `matcha`
+# 📚🏛📖 LLM Summarization example using `matcha`
 
 In this example, we will fine-tune a Large Language Model (LLM) for summarization task. We will provision the resources required for running this example using `matcha` 🍵.
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
-## Getting Started
+## 🚦 Getting Started
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
+
+### 🧬 Cloning 
 
 Clone this repo:
 
@@ -35,7 +37,7 @@ Install matcha:
 pip install matcha
 ```
 
-:warning: Provisioning :warning:
+### ⚠️ Provisioning
 
 The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
 
@@ -55,12 +57,10 @@ This will install the requirements for the example (see [requirements.txt](requi
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
-## `matcha` time
-
-Use matcha to run the example 🍵:
-
+## ▶️ Running the example
+Once setup.sh has completed, do the following to run the LLM pipeline (note: this will run both fine tuning and deployment):
 ```bash
-matcha run
+python run.py
 ```
 
 [Optional] Run the tests:

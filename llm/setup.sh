@@ -3,7 +3,7 @@ echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
     
-    zenml integration install azure huggingface pytorch seldon kubernetes -y
+    zenml integration install huggingface pytorch azure kubernetes seldon -y
 } >> setup_out.log
 
 if [[ ! -f .matcha/infrastructure/matcha.state ]]
@@ -12,6 +12,7 @@ then
     echo "Ensure that you have run 'matcha provision' in this directory and all cloud resources have been provisioned."
     exit 1
 fi
+
 
 get_state_value() {
     key=$1
@@ -34,6 +35,7 @@ zenserver_password=$(get_state_value zen_server_password)
 seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
 seldon_ingress_host=$(get_state_value seldon_base_url)
 
+
 # Environment variables required for LLM Server
 zenml_storage_container="${zenml_storage_path##*/}"
 echo "AZURE_STORAGE_CONNECTION_STRING=\"$zenml_connection_string\"" > "./server/.env"
@@ -48,13 +50,16 @@ echo "Setting up ZenML..."
     zenml init
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
     zenml secret create az_secret --connection_string="$zenml_connection_string"
-    zenml image-builder register docker_builder --flavor=local
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
+    zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
+    zenml image-builder register docker_builder --flavor=local
+
+    # Register the Seldon Core Model Deployer
     zenml model-deployer register seldon_deployer --flavor=seldon \
         --kubernetes_context=$k8s_context \
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
-    zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o default --model_deployer=seldon_deployer --set
+    zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
 } >> setup_out.log
