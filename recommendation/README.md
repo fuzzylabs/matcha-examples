@@ -23,7 +23,7 @@ git clone git@github.com:fuzzylabs/matcha-examples.git
 Go to the recommendation example directory:
 
 ```bash
-cd recommendation
+cd matcha-examples/recommendation
 ```
 
 Log into Azure via your terminal:
