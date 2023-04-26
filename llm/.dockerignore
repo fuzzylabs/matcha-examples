@@ -1,8 +1,11 @@
 venv
 
 .zen/
+data/
+.matcha/
+model/
 
-.matcha
+Dockerfile
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

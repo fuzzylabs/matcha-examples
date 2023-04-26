@@ -1,6 +1,9 @@
 settings:
   docker:
     dockerignore: .dockerignore
+    required_integrations:
+      - "huggingface"
+      - "pytorch"
 steps:
   download_dataset:
     enable_cache: False
