@@ -94,6 +94,7 @@ def get_config(
         pipeline_step_name=step_name,
         model_name=model_name,
         implementation="custom",
+        replicas=1,
         parameters=[
             SeldonDeploymentPredictorParameter(name=name, type="STRING", value=value)
             for name, value in artifacts_for_server.items()
