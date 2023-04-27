@@ -62,4 +62,6 @@ echo "Setting up ZenML..."
         --base_url=http://$seldon_ingress_host \
 
     zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
+
+    zenml stack register llm_example_local_stack -i docker_builder -c acr_registry -a az_store -o default --model_deployer=seldon_deployer
 } >> setup_out.log

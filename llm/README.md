@@ -58,9 +58,16 @@ This will install the requirements for the example (see [requirements.txt](requi
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
 ## ▶️ Running the example
-Once setup.sh has completed, do the following to run the LLM pipeline (note: this will run both fine tuning and deployment):
+Once setup.sh has completed, do the following to run the LLM pipeline:
 ```bash
-python run.py
+zenml stack set llm_example_cloud_stack  # To execute the tuning pipeline on the cloud
+python tune.py
+```
+
+You can now deploy the resulting model to the cloud:
+```bash
+zenml stack set llm_example_local_stack  # To execute the deployment pipeline locally, but deploy on the cloud
+python deploy.py
 ```
 
 [Optional] Run the tests:
