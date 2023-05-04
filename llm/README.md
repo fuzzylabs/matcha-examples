@@ -8,7 +8,7 @@ If you're wondering what on earth `matcha` is (besides the drink) then check out
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
 
-### 🧬 Cloning 
+### 🧬 Cloning
 
 Clone this repo:
 
@@ -58,16 +58,23 @@ This will install the requirements for the example (see [requirements.txt](requi
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
 ## ▶️ Running the example
-Once setup.sh has completed, do the following to run the LLM pipeline:
+
+Once `setup.sh` has completed, do the following to run the training pipeline:
+
 ```bash
-zenml stack set llm_example_cloud_stack  # To execute the tuning pipeline on the cloud
-python tune.py
+python run.py --train
 ```
 
-You can now deploy the resulting model to the cloud:
+Once training has finished, we can deploy our trained model by doing the following:
+
 ```bash
-zenml stack set llm_example_local_stack  # To execute the deployment pipeline locally, but deploy on the cloud
-python deploy.py
+python run.py --deploy
+```
+
+We can also run both training and deployment with one command:
+
+```bash
+python run.py --train --deploy
 ```
 
 [Optional] Run the tests:
