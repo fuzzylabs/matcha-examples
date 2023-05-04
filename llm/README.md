@@ -91,17 +91,19 @@ python -m pytest tests
 
 :question: And now you want to get predictions.
 
-We have created a streamlit demo.
+We have created a streamlit demo. To start the demo, run the following command:
 
 ```bash
 streamlit run app/llm_demo.py
 ```
 
-    > Alternatively, you can curl the endpoint with the following:
-
-    > curl -XPOST -H 'Content-Type: application/json' --d '{"data": {"ndarray": [{"text": "Hi can you summarize this!"}]}}' <endpoint_url>
-
-    > The output will be the summary of the input text sent back by the model!
+> Alternatively, you can `curl` the endpoint with the following:
+>
+> ```bash
+> curl -XPOST -H 'Content-Type: application/json' -d '{"data": {"ndarray": [{"text": "Hi can you summarize this!"}]}}' <endpoint_url>
+> ```
+>
+> The output will be the summary sent back by the model!
 
 ## DeDeprovision resources
 
