@@ -35,13 +35,6 @@ zenserver_password=$(get_state_value zen_server_password)
 seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
 seldon_ingress_host=$(get_state_value seldon_base_url)
 
-
-# Environment variables required for LLM Server
-zenml_storage_container="${zenml_storage_path##*/}"
-echo "AZURE_STORAGE_CONNECTION_STRING=\"$zenml_connection_string\"" > "./server/.env"
-echo "AZURE_STORAGE_CONTAINER_NAME=\"$zenml_storage_container\"" >> "./server/.env"
-
-
 echo "Setting up ZenML..."
 {
     export AUTO_OPEN_DASHBOARD=false
@@ -54,14 +47,10 @@ echo "Setting up ZenML..."
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
     zenml image-builder register docker_builder --flavor=local
-
-    # Register the Seldon Core Model Deployer
     zenml model-deployer register seldon_deployer --flavor=seldon \
         --kubernetes_context=$k8s_context \
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
     zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
-
-    zenml stack register llm_example_local_stack -i docker_builder -c acr_registry -a az_store -o default --model_deployer=seldon_deployer
 } >> setup_out.log

@@ -1,6 +1,10 @@
 settings:
   docker:
     dockerignore: .dockerignore
+    requirements:
+      - fastapi
+      - transformers
+      - torch
 steps:
   fetch_trained_model:
     enable_cache: False
@@ -11,19 +15,5 @@ steps:
       pipeline_version: 1
       # step name
       step_name: "tune_model"
-  build_docker_image:
+  deploy_model:
     enable_cache: False
-    parameters:
-      # Path of the directory containing the files used for building the Docker image.
-      docker_directory: "server/"
-  deploy_llm_model:
-    enable_cache: False
-    parameters:
-      model_name: "llm-model"
-      timeout: 300
-      engineResources:
-        requests:
-          cpu: 500m
-      containerResources:
-        requests:
-          cpu: 500m

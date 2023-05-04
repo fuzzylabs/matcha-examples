@@ -4,11 +4,11 @@ from zenml.pipelines import pipeline
 
 @pipeline
 def llm_pipeline(
-        download_dataset,
-        convert_to_hg_dataset,
-        get_huggingface_model,
-        preprocess_dataset,
-        tune_model,
+    download_dataset,
+    convert_to_hg_dataset,
+    get_huggingface_model,
+    preprocess_dataset,
+    tune_model,
 ):
     """Pipeline for llm fine-tuning on summarization dataset.
 
