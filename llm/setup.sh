@@ -48,7 +48,6 @@ function get_state_value() {
     echo $value
 }
 
-mlflow_tracking_url=$(get_state_value experiment-tracker tracking-url)
 zenml_storage_path=$(get_state_value pipeline storage-path)
 zenml_connection_string=$(get_state_value pipeline connection-string)
 k8s_context=$(get_state_value orchestrator k8s-context)
