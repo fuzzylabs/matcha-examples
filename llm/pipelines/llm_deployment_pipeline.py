@@ -8,7 +8,7 @@ def llm_deployment_pipeline(fetch_trained_model, deploy_model):
 
     Args:
         fetch_trained_model : A step to fetch path to trained model and decision to deploy the model.
-        deploy_llm_model: A step to deploy model using Seldon.
+        deploy_model: A step to deploy LLM model using Seldon.
     """
     # Fetch the trained model path, tokenizer path and decision
     model_uri, tokenizer_uri, decision = fetch_trained_model()

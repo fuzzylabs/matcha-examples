@@ -82,3 +82,33 @@ python run.py --train --deploy
 ```bash
 python -m pytest tests
 ```
+
+## :raising_hand_woman: Query the deployed model
+
+:white_check_mark: You've trained a model
+
+:white_check_mark: You've deployed it
+
+:question: And now you want to get predictions.
+
+We have created a streamlit demo.
+
+```bash
+streamlit run app/llm_demo.py
+```
+
+    > Alternatively, you can curl the endpoint with the following:
+
+    > curl -XPOST -H 'Content-Type: application/json' --d '{"data": {"ndarray": [{"text": "Hi can you summarize this!"}]}}' <endpoint_url>
+
+    > The output will be the summary of the input text sent back by the model!
+
+## DeDeprovision resources
+
+Even though we've chosen a sensible default configuration for you, leaving the resources you've provisioned in this example running on Azure is going to run up a bill.
+
+To deprovision the resources, run the following command:
+
+```bash
+matcha destroy
+```
