@@ -23,7 +23,7 @@ git clone git@github.com:fuzzylabs/matcha-examples.git
 Go to the recommendation example directory:
 
 ```bash
-cd recommendation
+cd matcha-examples/recommendation
 ```
 
 Log into Azure via your terminal:
@@ -66,6 +66,8 @@ This will install the requirements for the example (see [requirements.txt](requi
 ```bash
 ./setup.sh
 ```
+
+> Note that in the `setup.sh` script we also install [`jq`](https://stedolan.github.io/jq/) to your system using [Homebrew](https://brew.sh/) for MacOS users and `apt-get` for Linux users. If you are a MacOS user and do not have Homebrew installed you will need to install it yourself.
 
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 

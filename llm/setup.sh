@@ -1,8 +1,34 @@
 #!/bin/bash
 echo "Installing example requirements (see requirements.txt)..."
 {
+    # Install jq on macOS using Homebrew
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        if ! command -v brew &> /dev/null; then
+            echo "Error: Homebrew is not installed."
+            exit 1
+        fi
+
+        if ! command -v jq &> /dev/null; then
+            echo "Installing jq using Homebrew..."
+            brew install jq
+        fi
+    fi
+
+    # Install jq on Linux using APT
+    if [[ "$(uname -s)" == "Linux" ]]; then
+        if ! command -v apt-get &> /dev/null; then
+            echo "Error: APT is not available."
+            exit 1
+        fi
+
+        if ! command -v jq &> /dev/null; then
+            echo "Installing jq using APT..."
+            sudo apt-get update
+            sudo apt-get install -y jq
+        fi
+    fi
+
     pip install -r requirements.txt
-    
     zenml integration install huggingface pytorch azure kubernetes seldon -y
 } >> setup_out.log
 
@@ -14,26 +40,24 @@ then
 fi
 
 
-get_state_value() {
-    key=$1
-    value=$(sed -n 's/.*"'$key'": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-    if [[ -z $value ]]; then
-        echo "Error: The value for '$key' is not found in .matcha/infrastructure/matcha.state!"
-        exit 1
-    fi
+function get_state_value() {
+    resource_name=$1
+    property=$2
+    json_string=$(matcha get $resource_name $property --output json)
+    value=$(echo $json_string | jq -r '."'$resource_name'"."'$property'"')
     echo $value
 }
 
-zenml_storage_path=$(get_state_value zenml_storage_path)
-zenml_connection_string=$(get_state_value zenml_connection_string)
-k8s_context=$(get_state_value k8s_context)
-acr_registry_uri=$(get_state_value azure_container_registry)
-acr_registry_name=$(get_state_value azure_registry_name)
-zenserver_url=$(get_state_value zen_server_url)
-zenserver_username=$(get_state_value zen_server_username)
-zenserver_password=$(get_state_value zen_server_password)
-seldon_workload_namespace=$(get_state_value seldon_workloads_namespace)
-seldon_ingress_host=$(get_state_value seldon_base_url)
+zenml_storage_path=$(get_state_value pipeline storage-path)
+zenml_connection_string=$(get_state_value pipeline connection-string)
+k8s_context=$(get_state_value orchestrator k8s-context)
+acr_registry_uri=$(get_state_value container-registry registry-url)
+acr_registry_name=$(get_state_value container-registry registry-name)
+zenserver_url=$(get_state_value pipeline server-url)
+zenserver_username=$(get_state_value pipeline server-username)
+zenserver_password=$(get_state_value pipeline server-password)
+seldon_workload_namespace=$(get_state_value model-deployer workloads-namespace)
+seldon_ingress_host=$(get_state_value model-deployer base-url)
 
 echo "Setting up ZenML..."
 {
@@ -54,3 +78,5 @@ echo "Setting up ZenML..."
 
     zenml stack register llm_example_cloud_stack -i docker_builder -c acr_registry -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
 } >> setup_out.log
+
+echo "ZenML set-up complete."
