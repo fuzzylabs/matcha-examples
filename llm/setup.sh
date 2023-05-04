@@ -29,7 +29,7 @@ echo "Installing example requirements (see requirements.txt)..."
     fi
 
     pip install -r requirements.txt
-    zenml integration install mlflow azure kubernetes seldon -y
+    zenml integration install huggingface pytorch azure kubernetes seldon -y
 } >> setup_out.log
 
 if [[ ! -f .matcha/infrastructure/matcha.state ]]
