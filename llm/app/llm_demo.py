@@ -22,15 +22,18 @@ def _get_prediction_endpoint() -> str:
     Returns:
         str: the url endpoint.
     """
-    model_deployer = SeldonModelDeployer.get_active_model_deployer()
+    try:
+        model_deployer = SeldonModelDeployer.get_active_model_deployer()
 
-    deployed_services = model_deployer.find_model_server(
-        pipeline_name=PIPELINE_NAME,
-        pipeline_step_name=PIPELINE_STEP,
-        model_name=MODEL_NAME,
-    )
+        deployed_services = model_deployer.find_model_server(
+            pipeline_name=PIPELINE_NAME,
+            pipeline_step_name=PIPELINE_STEP,
+            model_name=MODEL_NAME,
+        )
 
-    return deployed_services[0].prediction_url
+        return deployed_services[0].prediction_url
+    except Exception:
+        return None
 
 
 def _create_payload(input_text: str) -> dict:
