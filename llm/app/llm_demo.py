@@ -1,3 +1,5 @@
+"""Streamlit application."""
+import os
 import streamlit as st
 import json
 from zenml.integrations.seldon.model_deployers.seldon_model_deployer import (
@@ -9,6 +11,7 @@ st.title("LLM Summarization Demo")
 PIPELINE_NAME = "llm_deployment_pipeline"
 PIPELINE_STEP = "deploy_model"
 MODEL_NAME = "seldon-llm-custom-model"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def _get_prediction_endpoint() -> str:
@@ -84,7 +87,8 @@ def switch_examples(data: dict) -> str:
 
 
 def main():
-    data = read_examples(file_path="example.json")
+    example_file_path = os.path.join(BASE_DIR, "example.json")
+    data = read_examples(file_path=example_file_path)
 
     txt = switch_examples(data)
 
