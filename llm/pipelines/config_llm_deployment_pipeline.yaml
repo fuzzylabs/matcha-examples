@@ -17,3 +17,12 @@ steps:
       step_name: "tune_model"
   deploy_model:
     enable_cache: False
+  get_prediction_endpoint:
+    enable_cache: False
+    parameters:
+      # Name of pipeline
+      pipeline_name: "llm_deployment_pipeline"
+      # Name of step in the pipeline
+      pipeline_step: "deploy_model"
+      # Name of model
+      model_name: "seldon-llm-custom-model"

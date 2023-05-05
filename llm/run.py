@@ -8,6 +8,7 @@ from steps.download_data_step import download_dataset
 from steps.convert_to_hg_dataset_step import convert_to_hg_dataset
 from steps.preprocess_hg_dataset_step import preprocess_dataset
 from steps.deploy_model_step import seldon_llm_custom_deployment
+from steps.fetch_seldon_url_step import get_prediction_endpoint
 from steps.fetch_trained_model_step import fetch_model
 
 from pipelines.llm_deployment_pipeline import llm_deployment_pipeline
@@ -30,7 +31,9 @@ def run_llm_pipeline():
 
 def run_llm_deploy_pipeline():
     """Run all steps in llm deploy pipeline."""
-    pipeline = llm_deployment_pipeline(fetch_model(), seldon_llm_custom_deployment)
+    pipeline = llm_deployment_pipeline(
+        fetch_model(), seldon_llm_custom_deployment, get_prediction_endpoint()
+    )
     pipeline.run(config_path="pipelines/config_llm_deployment_pipeline.yaml")
 
 
