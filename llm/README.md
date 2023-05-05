@@ -107,7 +107,7 @@ streamlit run app/llm_demo.py
 >
 > The output will be the summary sent back by the model!
 
-## Deprovision resources
+## Destroy resources
 
 Even though we've chosen a sensible default configuration for you, leaving the resources you've provisioned in this example running on Azure is going to run up a bill.
 
