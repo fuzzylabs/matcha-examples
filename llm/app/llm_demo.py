@@ -1,5 +1,6 @@
 """Streamlit application."""
 import os
+import requests
 import streamlit as st
 import json
 from zenml.integrations.seldon.model_deployers.seldon_model_deployer import (
@@ -14,6 +15,7 @@ MODEL_NAME = "seldon-llm-custom-model"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+@st.cache_data
 def _get_prediction_endpoint() -> str:
     """Get the endpoint for the currently deployed LLM model.
 
@@ -31,20 +33,50 @@ def _get_prediction_endpoint() -> str:
     return deployed_services[0].prediction_url
 
 
-def fetch_summary(txt: str) -> str:
+def _create_payload(input_text: str) -> dict:
+    """Create a payload from the user input to send to the LLM model.
+
+    Args:
+        input_text (str): Input text to summarize.
+
+    Returns:
+        dict: the payload to send in the correct format.
+    """
+    return {"data": {"ndarray": [{"text": str(input_text)}]}}
+
+
+def _get_predictions(prediction_endpoint: str, payload: dict) -> dict:
+    """Using the prediction endpont and payload, make a prediction request to the deployed model.
+
+    Args:
+        prediction_endpoint (str): the url endpoint.
+        payload (dict): the payload to send to the model.
+
+    Returns:
+        dict: the predictions from the model.
+    """
+    response = requests.post(
+        url=prediction_endpoint,
+        data=json.dumps(payload),
+        headers={"Content-Type": "application/json"},
+    )
+    return json.loads(response.text)["jsonData"]["predictions"][0]
+
+
+def fetch_summary(seldon_url: str, txt: str) -> str:
     """Query seldon endpoint to fetch the summary.
 
     Args:
+        seldon_url (str): Seldon endpoint
         txt (str): Input text to summarize
 
     Returns:
         str: Summarized text
     """
-    seldon_url = _get_prediction_endpoint()
-    if seldon_url is None:
-        st.write("Hmm, seldon endpoint is not provisioned yet!")
-    else:
-        pass
+    with st.spinner("Applying LLM Magic..."):
+        payload = _create_payload(txt)
+        summary_txt = _get_predictions(seldon_url, payload)
+    return summary_txt
 
 
 def read_examples(file_path: str = "example.json") -> dict:
@@ -95,11 +127,17 @@ def main():
     result = st.button(label="Ready")
 
     if result:
-        summarized_text = st.text_area(
-            label="Summarized Text",
-            value=fetch_summary(txt),
-            height=200,
-        )
+        seldon_url = _get_prediction_endpoint()
+
+        if seldon_url is None:
+            st.write("Hmm, seldon endpoint is not provisioned yet!")
+
+        else:
+            summarized_text = st.text_area(
+                label="Summarized Text",
+                value=fetch_summary(seldon_url, txt),
+                height=200,
+            )
 
 
 if __name__ == "__main__":
