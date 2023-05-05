@@ -21,11 +21,11 @@ def custom_predict(
     Args:
         model (Any): The model to use for prediction.
         tokenizer (Any): The tokenizer to use for prediction.
-        request: The request response is an array-like format.
+        request (Array_Like): The request response is an array-like format.
 
     Returns:
-        The prediction in an array-like format. (e.g: np.ndarray,
-        List[Any], str, bytes, Dict[str, Any])
+        Array_Like: The prediction in an array-like format.
+                    (e.g: np.ndarray, List[Any], str, bytes, Dict[str, Any])
     """
     inputs = []
 

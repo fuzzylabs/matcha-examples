@@ -61,7 +61,7 @@ class ZenMLCustomLLMModel:
         prediction time by the materializer.
 
         Returns:
-            True if the model was loaded successfully, False otherwise.
+            bool: True if the model was loaded successfully, False otherwise.
         """
         try:
             self.model = AutoModelForSeq2SeqLM.from_pretrained(

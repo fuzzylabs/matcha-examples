@@ -40,9 +40,9 @@ def copy_artifact(uri: str, filename: str, context: StepContext) -> str:
     """Copy an artifact to the output location of the current step.
 
     Args:
-        uri: URI of the artifact to copy
-        filename: filename for the output artifact
-        context: ZenML step context
+        uri (str): URI of the artifact to copy
+        filename (str): filename for the output artifact
+        context (StepContext): ZenML step context
 
     Returns:
         str: URI of the output location
