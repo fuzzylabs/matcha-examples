@@ -43,7 +43,7 @@ fi
 function get_state_value() {
     resource_name=$1
     property=$2
-    json_string=$(matcha get $resource_name $property --output json)
+    json_string=$(matcha get $resource_name $property --output json --show-sensitive)
     value=$(echo $json_string | jq -r '."'$resource_name'"."'$property'"')
     echo $value
 }
