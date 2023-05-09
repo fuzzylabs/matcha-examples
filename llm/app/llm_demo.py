@@ -7,7 +7,7 @@ from zenml.integrations.seldon.model_deployers.seldon_model_deployer import (
     SeldonModelDeployer,
 )
 
-st.title("LLM Summarization Demo")
+st.title("LLM Legal Text Summarization Demo")
 
 PIPELINE_NAME = "llm_deployment_pipeline"
 PIPELINE_STEP = "deploy_model"
@@ -105,18 +105,9 @@ def switch_examples(data: dict) -> str:
     Returns:
         str: Input text to summarize.
     """
-    pages = ["Example 1", "Example 2", "Example 3"]
+    pages = ["Fuzzy Labs", "Stack Overflow", "ZenML", "Your own example"]
     page = st.radio("Test Examples", pages)
-
-    if page == "Example 1":
-        text = data["example1"]
-
-    if page == "Example 2":
-        text = data["example2"]
-
-    if page == "Example 3":
-        text = data["example3"]
-
+    text = data.get(page, "")
     input_text = st.text_area(label="Text to summarize", value=text, height=400)
     return input_text
 
@@ -126,7 +117,6 @@ def main():
     data = read_examples(file_path=example_file_path)
 
     txt = switch_examples(data)
-
     result = st.button(label="Ready")
 
     if result:
@@ -136,11 +126,14 @@ def main():
             st.write("Hmm, seldon endpoint is not provisioned yet!")
 
         else:
-            summarized_text = st.text_area(
-                label="Summarized Text",
-                value=fetch_summary(seldon_url, txt),
-                height=200,
-            )
+            if len(txt) > 0:
+                summarized_text = st.text_area(
+                    label="Summarized Text",
+                    value=fetch_summary(seldon_url, txt),
+                    height=200,
+                )
+            else:
+                st.write("Hmm, input text is empty.")
 
 
 if __name__ == "__main__":
