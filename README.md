@@ -2,8 +2,8 @@
 
 This repository contains a whole suite of example workflows which can be used in conjunction with `matcha`. The repository currently contains the following examples:
 
-* Movie recommendation
-* Legal text summarisation using LLMs
+* [Movie recommendation](recommendation)
+* [Legal text summarisation using LLMs](llm)
 
 Before you dive into the examples, each require some resources provisioned in the cloud - Azure specifically.
 

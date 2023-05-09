@@ -44,12 +44,10 @@ source venv/bin/activate
 Install matcha:
 
 ```bash
-pip install matcha
+pip install matcha-ml
 ```
 
-### ⚠️ Provisioning
-
-The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
+### Provisioning
 
 > You need to be in the `recommendations` directory before running this!
 
