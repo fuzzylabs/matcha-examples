@@ -1,6 +1,6 @@
 # 📚🏛📖 LLM Summarization example using `matcha`
 
-In this example, we will fine-tune a Large Language Model (LLM) for summarization task. We will provision the resources required for running this example using `matcha` 🍵.
+In this example, we'll show you how to use matcha to setup a default cloud environment on Azure and hook up a Large Language Model (LLM) for summarization pipeline to run on that environment.
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 

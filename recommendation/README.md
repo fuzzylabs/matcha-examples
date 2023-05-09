@@ -1,6 +1,6 @@
 # 🎥🎞🍿 A movie recommendation example using `matcha`
 
-This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵.
+In this example, we'll show you how to use matcha to setup a default cloud environment on Azure and hook up a movie recommendation pipeline to run on that environment.
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 

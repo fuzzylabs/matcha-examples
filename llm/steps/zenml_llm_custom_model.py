@@ -24,8 +24,9 @@ class ZenMLCustomLLMModel:
     which is used as the main entry point for custom code execution.
 
     Attributes:
-        name: The name of the model.
         model_uri: The URI of the model.
+        tokenizer_uri: The URI of the tokenizer.
+        model_name: The name of the model.
         predict_func: The predict function of the model.
     """
 
