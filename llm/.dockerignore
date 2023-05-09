@@ -11,3 +11,10 @@ Dockerfile
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Ignore copying data folder when building docker image
+data
+
+model
+
+mlruns

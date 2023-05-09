@@ -59,22 +59,18 @@ zenserver_password=$(get_state_value pipeline server-password)
 seldon_workload_namespace=$(get_state_value model-deployer workloads-namespace)
 seldon_ingress_host=$(get_state_value model-deployer base-url)
 
-
 echo "Setting up ZenML..."
 {
     export AUTO_OPEN_DASHBOARD=false
     az acr login --name="$acr_registry_name"
 
     zenml init
-
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
     zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret
     zenml orchestrator register k8s_orchestrator -f kubernetes --kubernetes_context="$k8s_context" --kubernetes_namespace=zenml --synchronous=True
     zenml image-builder register docker_builder --flavor=local
-
-    # Register the Seldon Core Model Deployer
     zenml model-deployer register seldon_deployer --flavor=seldon \
         --kubernetes_context=$k8s_context \
         --kubernetes_namespace=$seldon_workload_namespace \

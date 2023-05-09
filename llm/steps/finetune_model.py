@@ -15,6 +15,7 @@ from datasets import Dataset
 
 class TuningParameters(BaseParameters):
     """Fine-tuning step parameters."""
+
     # Learning rate
     learning_rate: float
 
@@ -61,16 +62,16 @@ def prepare_training_args(params: TuningParameters) -> Seq2SeqTrainingArguments:
         predict_with_generate=True,
         no_cuda=not use_cuda,
         fp16=use_cuda,
-        load_best_model_at_end=params.load_best_model_at_end
+        load_best_model_at_end=params.load_best_model_at_end,
     )
     return training_args
 
 
 def train(
-        tokenizer: PreTrainedTokenizerBase,
-        model: PreTrainedModel,
-        data: Dataset,
-        training_args: Seq2SeqTrainingArguments
+    tokenizer: PreTrainedTokenizerBase,
+    model: PreTrainedModel,
+    data: Dataset,
+    training_args: Seq2SeqTrainingArguments,
 ) -> Tuple[PreTrainedTokenizerBase, PreTrainedModel]:
     """Perform sequence to sequence training.
 
@@ -86,14 +87,16 @@ def train(
     Raises:
         Exception: when tokenizer or model is missing from the trainer
     """
-    data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model.name_or_path)
+    data_collator = DataCollatorForSeq2Seq(
+        tokenizer=tokenizer, model=model.name_or_path
+    )
     trainer = Seq2SeqTrainer(
         model=model,
         args=training_args,
         train_dataset=data["train"],
         eval_dataset=data["test"],
         tokenizer=tokenizer,
-        data_collator=data_collator
+        data_collator=data_collator,
     )
 
     trainer.train()
@@ -108,10 +111,10 @@ def train(
 
 @step
 def finetune_model(
-        params: TuningParameters,
-        tokenizer: PreTrainedTokenizerBase,
-        model: PreTrainedModel,
-        data: Dataset
+    params: TuningParameters,
+    tokenizer: PreTrainedTokenizerBase,
+    model: PreTrainedModel,
+    data: Dataset,
 ) -> Output(tokenizer=PreTrainedTokenizerBase, model=PreTrainedModel):
     """A step to fine-tune a pre-trained model.
 

@@ -49,18 +49,18 @@ def download_dataset(params: DownloadDataParams) -> dict:
             response.raise_for_status()
 
         except HTTPError as http_err:
-            err_msg = f'HTTP Error: {http_err}'
+            err_msg = f"HTTP Error: {http_err}"
             logger.error(err_msg)
             raise Exception(err_msg)
 
         except Exception as err:
-            err_msg = f'An error occurred: {err}'
+            err_msg = f"An error occurred: {err}"
             logger.error(err_msg)
             raise Exception(err_msg)
 
         else:
             data = response.json()
-            with open(data_path, 'w', encoding='utf-8') as f:
+            with open(data_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
             logger.info(f"Dataset downloaded to {params.data_dir}")
