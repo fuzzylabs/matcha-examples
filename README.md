@@ -21,7 +21,7 @@ matcha provision
 
 Once that's complete, dive into the example workflows!
 
-> You'll need the right level of permissions on your Azure account - see here.
+> You'll need the right level of permissions on your Azure account - see [here](https://fuzzylabs.github.io/matcha/azure-permissions/).
 
 ---
 
