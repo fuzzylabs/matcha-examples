@@ -2,7 +2,7 @@
 
 In this example, we'll show you how to use matcha to setup a default cloud environment on Azure and hook up a movie recommendation pipeline to run on that environment.
 
-If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
+If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](https://fuzzylabs.github.io/matcha/) - don't forget to come back to try out this example!
 
 ## 🚦 Getting Started
 
@@ -44,12 +44,10 @@ source venv/bin/activate
 Install matcha:
 
 ```bash
-pip install matcha
+pip install matcha-ml
 ```
 
-### ⚠️ Provisioning
-
-The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
+### Provisioning
 
 > You need to be in the `recommendations` directory before running this!
 

@@ -1,9 +1,9 @@
-# Welcome to `matcha` examples!
+# Welcome to [`matcha`](https://fuzzylabs.github.io/matcha/) examples!
 
-This repository contains a whole suite of example workflows which can be used in conjunction with `matcha`. The repository currently contains the following examples:
+This repository contains a whole suite of example workflows which can be used in conjunction with [`matcha`](https://fuzzylabs.github.io/matcha/). The repository currently contains the following examples:
 
-* Movie recommendation
-* Legal text summarisation using LLMs
+* [Movie recommendation](recommendation)
+* [Legal text summarisation using LLMs](llm)
 
 Before you dive into the examples, each require some resources provisioned in the cloud - Azure specifically.
 
@@ -21,11 +21,12 @@ matcha provision
 
 Once that's complete, dive into the example workflows!
 
-> You'll need the right level of permissions on your Azure account - see here.
+> You'll need the right level of permissions on your Azure account - see [here](https://fuzzylabs.github.io/matcha/azure-permissions/).
 
 ---
 
 If you're wondering what on earth `matcha` is, it's a tool we've developed to easily provision MLOps tooling into the cloud. To learn more about `matcha` and to get started, check out the following:
 
-* Getting Started
-* Documentation
+* [Getting Started](https://fuzzylabs.github.io/matcha/getting-started/)
+* [Documentation](https://fuzzylabs.github.io/matcha/)
+* [`matcha` Repository](https://github.com/fuzzylabs/matcha)
