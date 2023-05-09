@@ -1,0 +1,19 @@
+settings:
+  docker:
+    dockerignore: .dockerignore
+    requirements:
+      - fastapi
+      - transformers
+      - torch
+steps:
+  fetch_trained_model:
+    enable_cache: False
+    parameters:
+      # Name of the pipeline to fetch from
+      pipeline_name: "llm_pipeline"
+      # Pipeline version hardcoded here, zenml searches only the latest version by default
+      pipeline_version: 1
+      # step name
+      step_name: "tune_model"
+  deploy_model:
+    enable_cache: False

@@ -1,6 +1,6 @@
-# 🎥🎞🍿 A movie recommendation example using `matcha` 
+# 🎥🎞🍿 A movie recommendation example using `matcha`
 
-This is a straightforward movie recommendation example which can be run on the infrastructure provisioned by `matcha` 🍵. 
+In this example, we'll show you how to use matcha to setup a default cloud environment on Azure and hook up a movie recommendation pipeline to run on that environment.
 
 If you're wondering what on earth `matcha` is (besides the drink) then check out our main repository [here](https://github.com/fuzzylabs/matcha) and our [documentation](LINK) - don't forget to come back to try out this example!
 
@@ -8,11 +8,11 @@ If you're wondering what on earth `matcha` is (besides the drink) then check out
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
 
-### 🧬 Cloning 
+### 🧬 Cloning
 
 Before you start, this example workflow requires the Azure CLI to be installed. See [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for how to do that.
 
-You will also need to ensure you have installed [Docker](https://docs.docker.com/get-docker/) and that the Docker daemon is running on your machine. 
+You will also need to ensure you have installed [Docker](https://docs.docker.com/get-docker/) and that the Docker daemon is running on your machine.
 
 Clone this repo:
 
@@ -48,7 +48,7 @@ pip install matcha
 ```
 
 ### ⚠️ Provisioning
- 
+
 The rest of this how-to will not work unless you've provisioned some resources! If you've skipped over doing that (👀) and are part way through this how-to, then let's provision those resources needed for this example workflow:
 
 > You need to be in the `recommendations` directory before running this!
@@ -67,36 +67,43 @@ This will install the requirements for the example (see [requirements.txt](requi
 ./setup.sh
 ```
 
+> Note that in the `setup.sh` script we also install [`jq`](https://stedolan.github.io/jq/) to your system using [Homebrew](https://brew.sh/) for MacOS users and `apt-get` for Linux users. If you are a MacOS user and do not have Homebrew installed you will need to install it yourself.
+
 > You may need to give the `setup.sh` file the correct permissions to run, if so then do the following: `chmod +x setup.sh`.
 
-## ▶️ Running the example 
+## ▶️ Running the example
+
 Once setup.sh has completed, do the following to run the training pipeline:
+
 ```bash
 python run.py --train
 ```
+
 Once training has finished, we can deploy our trained model by doing the following:
+
 ```bash
 python run.py --deploy
 ```
 
 We can also run both training and deployment with one command:
+
 ```bash
 python run.py --train --deploy
 ```
 
 [Optional] Run the tests:
+
 ```bash
 python -m pytest tests
 ```
 
 ## 🙋‍♀ Query the deployed model
 
-✅ You've trained a model 
+✅ You've trained a model
 
-✅ You've deployed it 
+✅ You've deployed it
 
-❓ And now you want to get predictions. 
-
+❓ And now you want to get predictions.
 
 We've created a handy inference script which you can use to send a `user_id` and a `movie_id` to the deployed model get a predicted rating:
 
@@ -111,13 +118,14 @@ User 100 is predicted to give the movie (100) a rating of: 4.2 out of 5
 ```
 
 > Alternatively, you can `curl` the endpoint with the following:
+>
 > ```bash
 > curl -XPOST -H 'Content-Type: application/json' -d '{"data": {"ndarray": [{"iid": "302", "uid": "196"}]}}' <endpoint_url>
 > ```
 >
 > The output will be the raw predictions sent back by the model!
 
-## Deprovision resources
+## Destroy resources
 
 Even though we've chosen a sensible default configuration for you, leaving the resources you've provisioned in this example running on Azure is going to run up a bill.
 
