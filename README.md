@@ -1,4 +1,4 @@
-# Welcome to `matcha` examples!
+# Welcome to [`matcha`](https://fuzzylabs.github.io/matcha/) examples!
 
 This repository contains a whole suite of example workflows which can be used in conjunction with [`matcha`](https://fuzzylabs.github.io/matcha/). The repository currently contains the following examples:
 
