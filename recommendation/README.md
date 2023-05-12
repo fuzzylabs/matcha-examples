@@ -8,6 +8,14 @@ If you're wondering what on earth `matcha` is (besides the drink) then check out
 
 There's a bit of a setup required before unleashing `matcha`, the steps below will guide you through this.
 
+### &#9989; Pre-requisites
+
+Before you start, this example workflow requires the Azure CLI to be installed. See [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for how to do that.
+
+You will also need to ensure you have installed [Docker](https://docs.docker.com/get-docker/) and that the Docker daemon is running on your machine.
+
+Finally, you also need to ensure that you have [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) installed on your machine.
+
 ### 🧬 Cloning
 
 Before you start, this example workflow requires the Azure CLI to be installed. See [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for how to do that.
