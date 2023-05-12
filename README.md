@@ -1,32 +1,18 @@
-# Welcome to [`matcha`](https://fuzzylabs.github.io/matcha/) examples!
+<h1 align="center">
+    Welcome to <code><a href="https://mymatcha.ai/">matcha</a></code> &#127861; examples!
+</h1>
 
-This repository contains a whole suite of example workflows which can be used in conjunction with [`matcha`](https://fuzzylabs.github.io/matcha/). The repository currently contains the following examples:
+This repository contains a whole suite of example workflows which can be used in conjunction with [`matcha`](https://mymatcha.ai/). The repository currently contains the following examples:
 
 * [Movie recommendation](recommendation)
 * [Legal text summarisation using LLMs](llm)
 
-Before you dive into the examples, each require some resources provisioned in the cloud - Azure specifically.
+Each example will talk you through what you need to do to get up and running with resources in Azure using `matcha`.
 
-First, move into the example directory that you're wanting to explore (we'll use the recommendation one as an example):
+## &#8265;&#65039; Wait a minute, what's `matcha`?
 
-```bash
-cd recommendation
-```
+`matcha` is an open source tool for provisioning MLOps environments on Azure. To learn more about `matcha` and to get started, check out the following:
 
-Now, to provision a set of default infrastructure, run the following:
-
-```bash
-matcha provision
-```
-
-Once that's complete, dive into the example workflows!
-
-> You'll need the right level of permissions on your Azure account - see [here](https://fuzzylabs.github.io/matcha/azure-permissions/).
-
----
-
-If you're wondering what on earth `matcha` is, it's a tool we've developed to easily provision MLOps tooling into the cloud. To learn more about `matcha` and to get started, check out the following:
-
-* [Getting Started](https://fuzzylabs.github.io/matcha/getting-started/)
-* [Documentation](https://fuzzylabs.github.io/matcha/)
-* [`matcha` Repository](https://github.com/fuzzylabs/matcha)
+* &#127861; [`matcha` repository](https://github.com/fuzzylabs/matcha)
+* [Getting Started](https://mymatcha.ai/getting-started/)
+* [Documentation](https://mymatcha.ai/)
