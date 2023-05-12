@@ -14,5 +14,5 @@ Each example will talk you through what you need to do to get up and running wit
 `matcha` is an open source tool for provisioning MLOps environments on Azure. To learn more about `matcha` and to get started, check out the following:
 
 * &#127861; [`matcha` repository](https://github.com/fuzzylabs/matcha)
-* [Getting Started](https://mymatcha.ai/getting-started/)
-* [Documentation](https://mymatcha.ai/)
+* &#128678; [Getting Started](https://mymatcha.ai/getting-started/)
+* &#128214; [Documentation](https://mymatcha.ai/)
