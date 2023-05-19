@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
@@ -12,29 +12,26 @@ then
     exit 1
 fi
 
-
-get_state_value() {
-    key=$1
-    value=$(sed -n 's/.*"'$key'": "\(.*\)".*/\1/p' .matcha/infrastructure/matcha.state)
-    if [[ -z $value ]]; then
-        echo "Error: The value for '$key' is not found in .matcha/infrastructure/matcha.state!"
-        exit 1
-    fi
-    echo $value
+function get_state_value() {
+    resource_name=$1
+    property=$2
+    json_string=$(matcha get "$resource_name" "$property" --output json --show-sensitive)
+    value=$(echo "$json_string" | sed -n 's/.*"'$property'": "\(.*\)".*/\1/p')
+    echo "$value"
 }
 
-mlflow_tracking_url=$(get_state_value tracking-url)
-zenml_storage_path=$(get_state_value storage-path)
-zenml_connection_string=$(get_state_value connection-string)
-k8s_context=$(get_state_value k8s-context)
-acr_registry_uri=$(get_state_value registry-url)
-acr_registry_name=$(get_state_value registry-name)
-zenserver_url=$(get_state_value server-url)
-zenserver_username=$(get_state_value server-username)
-zenserver_password=$(get_state_value server-password)
-seldon_workload_namespace=$(get_state_value workloads-namespace)
-seldon_ingress_host=$(get_state_value base-url)
-
+mlflow_tracking_url=$(get_state_value experiment-tracker tracking-url)
+zenml_storage_path=$(get_state_value pipeline storage-path)
+zenml_connection_string=$(get_state_value pipeline connection-string)
+k8s_context=$(get_state_value orchestrator k8s-context)
+acr_registry_uri=$(get_state_value container-registry registry-url)
+acr_registry_name=$(get_state_value container-registry registry-name)
+zenserver_url=$(get_state_value pipeline server-url)
+zenserver_username=$(get_state_value pipeline server-username)
+zenserver_password=$(get_state_value pipeline server-password)
+seldon_workload_namespace=$(get_state_value model-deployer workloads-namespace)
+seldon_ingress_host=$(get_state_value model-deployer base-url)
+echo $mlflow_tracking_url
 
 echo "Setting up ZenML..."
 {
