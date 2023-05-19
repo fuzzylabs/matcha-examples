@@ -1,33 +1,6 @@
 #!/bin/bash
 echo "Installing example requirements (see requirements.txt)..."
 {
-    # Install jq on macOS using Homebrew
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-        if ! command -v brew &> /dev/null; then
-            echo "Error: Homebrew is not installed."
-            exit 1
-        fi
-
-        if ! command -v jq &> /dev/null; then
-            echo "Installing jq using Homebrew..."
-            brew install jq
-        fi
-    fi
-
-    # Install jq on Linux using APT
-    if [[ "$(uname -s)" == "Linux" ]]; then
-        if ! command -v apt-get &> /dev/null; then
-            echo "Error: APT is not available."
-            exit 1
-        fi
-
-        if ! command -v jq &> /dev/null; then
-            echo "Installing jq using APT..."
-            sudo apt-get update
-            sudo apt-get install -y jq
-        fi
-    fi
-
     pip install -r requirements.txt
     zenml integration install huggingface pytorch azure kubernetes seldon -y
 } >> setup_out.log
@@ -43,9 +16,9 @@ fi
 function get_state_value() {
     resource_name=$1
     property=$2
-    json_string=$(matcha get $resource_name $property --output json --show-sensitive)
-    value=$(echo $json_string | jq -r '."'$resource_name'"."'$property'"')
-    echo $value
+    json_string=$(matcha get "$resource_name" "$property" --output json --show-sensitive)
+    value=$(echo "$json_string" | sed -n 's/.*"'$property'": "\(.*\)".*/\1/p')
+    echo "$value"
 }
 
 zenml_storage_path=$(get_state_value pipeline storage-path)
@@ -58,6 +31,7 @@ zenserver_username=$(get_state_value pipeline server-username)
 zenserver_password=$(get_state_value pipeline server-password)
 seldon_workload_namespace=$(get_state_value model-deployer workloads-namespace)
 seldon_ingress_host=$(get_state_value model-deployer base-url)
+
 
 echo "Setting up ZenML..."
 {
