@@ -31,7 +31,6 @@ zenserver_username=$(get_state_value pipeline server-username)
 zenserver_password=$(get_state_value pipeline server-password)
 seldon_workload_namespace=$(get_state_value model-deployer workloads-namespace)
 seldon_ingress_host=$(get_state_value model-deployer base-url)
-echo $mlflow_tracking_url
 
 echo "Setting up ZenML..."
 {
