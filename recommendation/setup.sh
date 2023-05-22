@@ -1,9 +1,13 @@
-!/bin/bash
+#!/bin/bash
 echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
     zenml integration install mlflow azure kubernetes seldon -y
 } >> setup_out.log
+
+{
+    zenml clean -y
+}
 
 if [[ ! -f .matcha/infrastructure/matcha.state ]]
 then
@@ -53,7 +57,8 @@ echo "Setting up ZenML..."
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
-    zenml stack register recommendation_example_cloud_stack -i docker_builder -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
+    zenml stack register recommendation_example_cloud_stack -i docker_builder -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer
+    zenml stack set recommendation_example_cloud_stack
 } >> setup_out.log
 
 echo "ZenML set-up complete."
