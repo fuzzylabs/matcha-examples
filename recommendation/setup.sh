@@ -5,10 +5,6 @@ echo "Installing example requirements (see requirements.txt)..."
     zenml integration install mlflow azure kubernetes seldon -y
 } >> setup_out.log
 
-{
-    zenml clean -y
-}
-
 if [[ ! -f .matcha/infrastructure/matcha.state ]]
 then
     echo "Error: The file .matcha/infrastructure/matcha.state does not exist!"
@@ -44,6 +40,29 @@ echo "Setting up ZenML..."
     zenml init
 
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
+
+    # Clean old stack if it exists
+    cleanup_resources() {
+        local resources=("stack:$1" "secret:az_secret" "container-registry:acr_registry" "experiment-tracker:mlflow_experiment_tracker" "artifact-store:az_store" "orchestrator:k8s_orchestrator" "model-deployer:seldon_deployer" "image-builder:docker_builder")
+
+        # Special case for stack as zenml stack list returns a table which the name of stack is separated into multiple lines
+        if zenml stack list --name="$1" | grep -q "items found for the applied filters."; then
+            echo "Found and removing existing stack named $1"
+            zenml stack set default
+            yes | zenml stack delete "$1"
+        fi
+
+        for resource in "${resources[@]}"; do
+            type="${resource%%:*}" # remove everything after :, inclusive
+            name="${resource#*:}" # remove everything before :, inclusive
+            if zenml "$type" list | grep -q "$name"; then
+                yes | zenml "$type" delete "$name"
+            fi
+        done
+    }
+
+    cleanup_resources "recommendation_example_cloud_stack"
+
     zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
