@@ -38,7 +38,8 @@ echo "Setting up ZenML..."
     az acr login --name="$acr_registry_name"
 
     zenml init
-
+    
+    # Disconnect from previous server if exists to prevent errors when a new Zen server is being used
     zenml disconnect
 
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
@@ -56,8 +57,7 @@ echo "Setting up ZenML..."
         --kubernetes_namespace=$seldon_workload_namespace \
         --base_url=http://$seldon_ingress_host \
 
-    zenml stack register recommendation_example_cloud_stack -i docker_builder -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer
-    zenml stack set recommendation_example_cloud_stack
+    zenml stack register recommendation_example_cloud_stack -i docker_builder -c acr_registry -e mlflow_experiment_tracker -a az_store -o k8s_orchestrator --model_deployer=seldon_deployer --set
 } >> setup_out.log
 
 echo "ZenML set-up complete."

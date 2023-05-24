@@ -40,6 +40,7 @@ echo "Setting up ZenML..."
 
     zenml init
 
+    # Disconnect from previous server if exists to prevent errors when a new Zen server is being used
     zenml disconnect
 
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
