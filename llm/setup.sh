@@ -39,7 +39,12 @@ echo "Setting up ZenML..."
     az acr login --name="$acr_registry_name"
 
     zenml init
+
+    # Disconnect from previous server if exists to prevent errors when a new Zen server is being used
+    zenml disconnect
+
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
+    
     zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml artifact-store register az_store -f azure --path="$zenml_storage_path" --authentication_secret=az_secret

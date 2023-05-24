@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
@@ -38,8 +38,12 @@ echo "Setting up ZenML..."
     az acr login --name="$acr_registry_name"
 
     zenml init
+    
+    # Disconnect from previous server if exists to prevent errors when a new Zen server is being used
+    zenml disconnect
 
     zenml connect --url="$zenserver_url" --username="$zenserver_username" --password="$zenserver_password" --no-verify-ssl
+
     zenml secret create az_secret --connection_string="$zenml_connection_string"
     zenml container-registry register acr_registry -f azure --uri="$acr_registry_uri"
     zenml experiment-tracker register mlflow_experiment_tracker -f mlflow --tracking_uri="$mlflow_tracking_url" --tracking_username=username --tracking_password=password
