@@ -1,3 +1,5 @@
+# Derived from zenml seldon integration; source : https://github.com/zenml-io/zenml/blob/main/src/zenml/integrations/seldon/custom_deployer/zenml_custom_model.py
+"""Zenml Custom LLM Class"""
 from typing import Any, Dict, List, Union, Optional
 import subprocess
 import numpy as np
