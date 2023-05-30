@@ -4,6 +4,8 @@ settings:
     required_integrations:
       - "huggingface"
       - "pytorch"
+    requirements:
+      - accelerate
 steps:
   download_dataset:
     enable_cache: False
@@ -38,7 +40,7 @@ steps:
       # Weight decay
       weight_decay: 0.01
       # Use CUDA for training
-      use_cuda: True
+      use_cuda: False
       # Batch size per device for training
       per_device_train_batch_size: 2
       # Batch size per device for evaluation
