@@ -1,3 +1,2 @@
-matcha-ml
 mlflow
 scikit-learn

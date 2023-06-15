@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: train-job
+spec:
+  template:
+    metadata:
+      name: train-job
+    spec:
+      containers:
+        - name: train-iris
+          image: jonocx/train_iris_image:latest
+      restartPolicy: Never
+  backoffLimit: 4
