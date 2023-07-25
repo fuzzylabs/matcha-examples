@@ -57,9 +57,8 @@ jobs:
       # Install zenml separately due to pyyaml bug : https://github.com/yaml/pyyaml/issues/724
       - name: Install additional dependencies
         run: |
-          source .venv/bin/activate
-          pip install "cython<3" wheel && pip install --no-build-isolation "pyyaml==5.4.1"
-          pip install "zenml==0.36.1"
+          venv/bin/python3 -m pip install "cython<3" wheel && pip install --no-build-isolation "pyyaml==5.4.1"
+          venv/bin/python3 -m pip install "zenml==0.36.1"
 
       - name: Setup ZenML
         run: |
