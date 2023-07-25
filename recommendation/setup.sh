@@ -2,6 +2,7 @@
 echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
+    pip install --pre --extra-index https://pypi.anaconda.org/scipy-wheels-nightly/simple "scikit-surprise==1.1.3"
     zenml integration install mlflow azure kubernetes seldon -y
 } >> setup_out.log
 
