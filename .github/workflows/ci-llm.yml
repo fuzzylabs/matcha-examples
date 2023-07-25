@@ -46,7 +46,7 @@ jobs:
       - name: Install dependencies
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: |
-          sed '/zenml/d' recommendation/requirements.txt > recommendation/requirements2.txt
+          sed 'zenmld' recommendation/requirements.txt > recommendation/requirements2.txt
           mv recommendation/requirements2.txt recommendation/requirements.txt
           if [ -d "venv" ]; then rm -rf venv; fi
 
