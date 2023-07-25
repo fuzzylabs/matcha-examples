@@ -2,6 +2,9 @@
 echo "Installing example requirements (see requirements.txt)..."
 {
     pip install -r requirements.txt
+    pip install "cython<3" wheel setuptools && pip install --no-build-isolation "pyyaml==5.4.1"
+    pip install "zenml[server]==0.36.1"
+    pip install --pre --extra-index https://pypi.anaconda.org/scipy-wheels-nightly/simple "scikit-surprise==1.1.3"
     zenml integration install mlflow azure kubernetes seldon -y
 } >> setup_out.log
 
