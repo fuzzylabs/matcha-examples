@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - llm/**
-      - .github/
+      - .github/**
     branches:
       - main
   push:
