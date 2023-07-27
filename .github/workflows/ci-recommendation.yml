@@ -46,11 +46,21 @@ jobs:
       - name: Install dependencies
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: |
+          sed '/zenml/d' recommendation/requirements.txt > recommendation/requirements2.txt
+          mv recommendation/requirements2.txt recommendation/requirements.txt
           if [ -d "venv" ]; then rm -rf venv; fi
 
           python3 -m venv venv 
 
           venv/bin/python3 -m pip install -r recommendation/requirements.txt
+
+      # Install zenml separately due to pyyaml bug : https://github.com/yaml/pyyaml/issues/724
+      - name: Install additional dependencies
+        run: |
+          source venv/bin/activate
+          pip install "cython<3" wheel setuptools && pip install --no-build-isolation "pyyaml==5.4.1"
+          pip install "zenml==0.36.1"
+          pip install --pre --extra-index https://pypi.anaconda.org/scipy-wheels-nightly/simple "scikit-surprise==1.1.3"
 
       - name: Setup ZenML
         run: |
