@@ -1,4 +1,4 @@
-# 📚🏛📖 LLM Summarization example using `matcha`
+# 📚🏛📖 LLM Summarization example using `matcha`  
 
 In this example, we'll show you how to use matcha to setup a default cloud environment on Azure and hook up a Large Language Model (LLM) for summarization pipeline to run on that environment.
 
