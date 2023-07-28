@@ -12,6 +12,7 @@ on:
       - llm/**
     branches:
       - main
+      
 
 jobs:
   ci-tests:
@@ -46,6 +47,8 @@ jobs:
       - name: Install dependencies
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: |
+          sed '/zenml/d' llm/requirements.txt > llm/requirements2.txt
+          mv llm/requirements2.txt llm/requirements.txt
           if [ -d "venv" ]; then rm -rf venv; fi
 
           python3 -m venv venv 
